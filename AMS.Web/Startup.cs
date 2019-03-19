@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using AMS.Core.Config;
+using AMS.Core.Helpers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AMS.Web.Data;
@@ -39,6 +36,7 @@ namespace AMS.Web
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>()
+                .AddRoles<IdentityRole>()
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
@@ -48,16 +46,23 @@ namespace AMS.Web
                 facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
             });
 
+            services.Configure<DevelopmentSettings>(options =>
+                Configuration.GetSection("DevelopmentSettings").Bind(options));
+          
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            AddApplicationServices(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, DevelopmentDefaultData developmentDefaultData)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
+
+                developmentDefaultData.CreateIfNoExtist().Wait();
             }
             else
             {
@@ -78,6 +83,11 @@ namespace AMS.Web
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+        }
+
+        private void AddApplicationServices(IServiceCollection services)
+        {
+            services.AddScoped<DevelopmentDefaultData>();
         }
     }
 }
