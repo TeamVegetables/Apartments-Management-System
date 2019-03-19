@@ -48,6 +48,7 @@ namespace AMS.Web
 
             services.Configure<DevelopmentSettings>(options =>
                 Configuration.GetSection("DevelopmentSettings").Bind(options));
+          
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             AddApplicationServices(services);
