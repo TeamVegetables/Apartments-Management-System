@@ -2,12 +2,12 @@
 
 namespace AMS.DataAccess.Entities
 {
-    public class PaymentStatus
+    public class ApartmentStatus
     {
         public int Id { get; set; }
 
         public string Title { get; set; }
 
-        public ICollection<Payment> Payments { get; set; }
+        public ICollection<Apartment> Apartments { get; set; }
     }
 }

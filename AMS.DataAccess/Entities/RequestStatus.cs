@@ -8,9 +8,6 @@ namespace AMS.DataAccess.Entities
 
         public string Title { get; set; }
 
-        public int RequestId { get; set; }
-
-        public ICollection<Payment> Requests { get; set; }
-
+        public ICollection<Request> Requests { get; set; }
     }
 }
