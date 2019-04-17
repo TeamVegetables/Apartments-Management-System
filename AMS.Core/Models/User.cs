@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 
-namespace AMS.DataAccess.Entities
+namespace AMS.Core.Models
 {
     public class User : IdentityUser
     {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace AMS.DataAccess.Entities
+namespace AMS.Core.Models
 {
     public class Role : IdentityRole
     {
