@@ -1,0 +1,19 @@
+﻿@using AMS.Core.Models
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<User> UserManager
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="row align-items-center">
+            <div class="col">
+                <h2>@UserManager.GetUserAsync(User).Result.FirstName</h2>
+            </div>
+            <div class="col">
+                <h2>@UserManager.GetUserAsync(User).Result.LastName</h2>
+            </div>
+            <div class="col">
+                <span class="badge badge-pill badge-danger">@UserManager.GetRolesAsync(await UserManager.GetUserAsync(User)).Result.FirstOrDefault()</span>
+            </div>
+        </div>
+    </div>
+</div>

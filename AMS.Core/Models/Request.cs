@@ -8,8 +8,6 @@ namespace AMS.Core.Models
 
         public int RequestStatusId { get; set; }
 
-        public RequestStatus RequestStatus { get; set; }
-
         public int InitiatorId { get; set; }
 
         public int ResolverId { get; set; }
@@ -19,6 +17,5 @@ namespace AMS.Core.Models
         public DateTime Initiated { get; set; }
 
         public DateTime Completed { get; set; }
-
     }
 }

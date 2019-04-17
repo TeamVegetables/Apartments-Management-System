@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AMS.Core.Config;
 using AMS.Core.Identity;
+using AMS.Core.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 
@@ -11,10 +12,10 @@ namespace AMS.Core.Helpers
     public class DevelopmentDefaultData
     {
         private readonly DevelopmentSettings settings;
-        private readonly UserManager<IdentityUser> userManager;
+        private readonly UserManager<User> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
 
-        public DevelopmentDefaultData(IOptions<DevelopmentSettings> settings, UserManager<IdentityUser> userManager,
+        public DevelopmentDefaultData(IOptions<DevelopmentSettings> settings, UserManager<User> userManager,
             RoleManager<IdentityRole> roleManager)
         {
             this.settings = settings.Value;
@@ -58,7 +59,7 @@ namespace AMS.Core.Helpers
                 return;
             }
 
-            user = new IdentityUser
+            user = new User
             {
                 UserName = "manager@gmail.com",
                 Email = "manager@gmail.com"
@@ -87,10 +88,13 @@ namespace AMS.Core.Helpers
                 return;
             }
 
-            user = new IdentityUser
+            user = new User
             {
                 UserName = settings.DefaultAdminUserEmail,
-                Email = settings.DefaultAdminUserEmail
+                Email = settings.DefaultAdminUserEmail,
+                FirstName = "Odmen",
+                LastName = "Obmenovich",
+                DateOfBirth = DateTime.Now
             };
 
             var result = await userManager.CreateAsync(user, settings.DefaultAdminUserPassword);

@@ -6,11 +6,7 @@ namespace AMS.Core.Models
     {
         public int Id { get; set; }
 
-        public User User { get; set; }
-
         public int UserId { get; set; }
-
-        public Apartment Apartment { get; set; }
 
         public int ApartmentId { get; set; }
 
