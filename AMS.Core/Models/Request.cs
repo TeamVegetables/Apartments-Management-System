@@ -10,11 +10,7 @@ namespace AMS.Core.Models
 
         public RequestStatus RequestStatus { get; set; }
 
-        public User Initiator { get; set; }
-
         public int InitiatorId { get; set; }
-
-        public User Resolver { get; set; }
 
         public int ResolverId { get; set; }
 
