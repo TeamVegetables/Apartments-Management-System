@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 
 namespace AMS.Core.Models
@@ -12,12 +11,6 @@ namespace AMS.Core.Models
 
         public DateTime DateOfBirth { get; set; }
 
-        public Apartment Apartment { get; set; }
-
         public int ApartmentId { get; set; }
-
-        public ICollection<Payment> Payments { get; set; }
-
-        public ICollection<Request> Requests { get; set; }
     }
 }
