@@ -1,0 +1,47 @@
+﻿@model IEnumerable<AMS.Core.Models.Apartment>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <form>
+                <button type="submit" class="btn btn-sm btn-primary p-3 my-2">
+                    Create new apartment
+                </button>
+            </form>
+        </div>
+    </div>
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Title</th>
+                <th scope="col">Cpacity</th>
+                <th scope="col">Status</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <th scope="row">@item.Id</th>
+                    <td>@item.Title</td>
+                    <td>@item.Capacity</td>
+                    <td>@item.ApartmentStatus.Title</td>
+                    <td class="d-flex">
+                        <form>
+                            <button type="submit" class="btn btn-sm btn-primary mr-1">
+                                Add inhabitant
+                            </button>
+                        </form>
+                        <form>
+                            <button type="submit" class="btn btn-sm btn-danger ml-1">
+                                Delete
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
