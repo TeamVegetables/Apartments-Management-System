@@ -23,8 +23,8 @@
                 </div>
                 <div class="col-4">
                     <form asp-controller="Profile" asp-action="ChangeRole" method="post">
-                        <input asp-for="UserId" type="hidden" value="@UserManager.GetUserAsync(User).Result.Id" />
-                        <input asp-for="OldRole" type="hidden" value="@UserManager.GetRolesAsync(await UserManager.GetUserAsync(User)).Result.FirstOrDefault()" />
+                        <input asp-for="UserId" type="hidden" value="@user.Id" />
+                        <input asp-for="OldRole" type="hidden" value="@UserManager.GetRolesAsync(user).Result.FirstOrDefault()" />
                         <div class="row align-items-center">
                             <div class="col-6">
                                 <select asp-for="NewRole" class="form-control form-control-sm">
