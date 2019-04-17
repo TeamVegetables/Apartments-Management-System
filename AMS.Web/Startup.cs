@@ -34,7 +34,8 @@ namespace AMS.Web
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                    Configuration.GetConnectionString("DefaultConnection"),
+                    b => b.MigrationsAssembly("AMS.Core")));
             services.AddDefaultIdentity<IdentityUser>()
                 .AddRoles<IdentityRole>()
                 .AddDefaultUI(UIFramework.Bootstrap4)
@@ -62,7 +63,7 @@ namespace AMS.Web
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
 
-                developmentDefaultData.CreateIfNoExtist().Wait();
+                developmentDefaultData.CreateIfNoExist().Wait();
             }
             else
             {

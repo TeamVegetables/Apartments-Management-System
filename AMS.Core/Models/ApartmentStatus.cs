@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 
-namespace AMS.DataAccess.Entities
+namespace AMS.Core.Models
 {
-    public class PaymentStatus
+    public class ApartmentStatus
     {
         public int Id { get; set; }
 
         public string Title { get; set; }
 
-        public ICollection<Payment> Payments { get; set; }
+        public ICollection<Apartment> Apartments { get; set; }
     }
 }

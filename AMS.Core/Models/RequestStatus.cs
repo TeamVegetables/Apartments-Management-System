@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace AMS.DataAccess.Entities
+namespace AMS.Core.Models
 {
     public class RequestStatus
     {

@@ -22,7 +22,7 @@ namespace AMS.Core.Helpers
             this.roleManager = roleManager;
         }
 
-        public async Task CreateIfNoExtist()
+        public async Task CreateIfNoExist()
         {
             await CreateRoles();
             await CreateAdminUser();
