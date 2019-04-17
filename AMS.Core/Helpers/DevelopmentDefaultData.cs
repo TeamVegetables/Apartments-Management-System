@@ -59,7 +59,7 @@ namespace AMS.Core.Helpers
                 return;
             }
 
-            user = new IdentityUser
+            user = new User
             {
                 UserName = "manager@gmail.com",
                 Email = "manager@gmail.com"

@@ -18,19 +18,16 @@ namespace AMS.Web.Controllers
             apartments.Add(new Apartment {
                 Title = ("Test apartment"),
                 Capacity = 3,
-                ApartmentStatus = new ApartmentStatus { Title = "Status"}
             });
             apartments.Add(new Apartment
             {
                 Title = ("Test apartment"),
                 Capacity = 3,
-                ApartmentStatus = new ApartmentStatus { Title = "Status" }
             });
             apartments.Add(new Apartment
             {
                 Title = ("Test apartment"),
                 Capacity = 3,
-                ApartmentStatus = new ApartmentStatus { Title = "Status" }
             });
             return View(apartments);
         }
