@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AMS.DataAccess.Entities
+namespace AMS.Core.Models
 {
    public class Request
     {
@@ -10,11 +10,7 @@ namespace AMS.DataAccess.Entities
 
         public RequestStatus RequestStatus { get; set; }
 
-        public User Initiator { get; set; }
-
         public int InitiatorId { get; set; }
-
-        public User Resolver { get; set; }
 
         public int ResolverId { get; set; }
 

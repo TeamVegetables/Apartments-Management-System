@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AMS.Web", "AMS.Web\AMS.Web.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AMS.Core", "AMS.Core\AMS.Core.csproj", "{092BD146-ACAF-480B-AA9F-0F9361545C97}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AMS.Contracts", "AMS.Contracts\AMS.Contracts.csproj", "{D927EE04-8A67-4DB1-A63C-8C0EF064FD7D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AMS.Services", "AMS.Services\AMS.Services.csproj", "{D9745E70-ACF3-4781-8301-5A1874AE0FCE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{092BD146-ACAF-480B-AA9F-0F9361545C97}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{092BD146-ACAF-480B-AA9F-0F9361545C97}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{092BD146-ACAF-480B-AA9F-0F9361545C97}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D927EE04-8A67-4DB1-A63C-8C0EF064FD7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D927EE04-8A67-4DB1-A63C-8C0EF064FD7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D927EE04-8A67-4DB1-A63C-8C0EF064FD7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D927EE04-8A67-4DB1-A63C-8C0EF064FD7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9745E70-ACF3-4781-8301-5A1874AE0FCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9745E70-ACF3-4781-8301-5A1874AE0FCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9745E70-ACF3-4781-8301-5A1874AE0FCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9745E70-ACF3-4781-8301-5A1874AE0FCE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
