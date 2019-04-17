@@ -1,0 +1,15 @@
+﻿using System;
+using System.Threading.Tasks;
+
+namespace AMS.Core.Interfaces
+{
+    public interface IUnitOfWork: IDisposable
+    {
+        IApartmentRepository Apartments { get; }
+        IPaymentRepository Payments { get; }
+        IRentInfoRepository RentInfos { get; }
+        IRequestRepository Requests { get; }
+        int Save();
+        Task<int> SaveAsync();
+    }
+}

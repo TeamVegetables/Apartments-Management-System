@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using AMS.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace AMS.Core.Repositories
 {
-    public class BaseRepository<TEntity> : Interfaces.IGenericRepository<TEntity> where TEntity: class
+    public class BaseRepository<TEntity> : IDisposable, IGenericRepository<TEntity> where TEntity: class
     {
         protected readonly DbContext _context;
 
@@ -54,6 +55,11 @@ namespace AMS.Core.Repositories
         public virtual async Task UpdateAsync(TEntity entity)
         {
             _context.Set<TEntity>().Update(entity);
+        }
+
+        public void Dispose()
+        {
+            _context?.Dispose();
         }
     }
 }
