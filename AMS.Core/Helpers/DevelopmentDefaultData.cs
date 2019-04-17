@@ -26,7 +26,7 @@ namespace AMS.Core.Helpers
         {
             await CreateRoles();
             await CreateAdminUser();
-
+            await CreateManagerUser();
         }
 
         private async Task CreateRoles()
@@ -49,7 +49,35 @@ namespace AMS.Core.Helpers
                 }
             }
         }
+        private async Task CreateManagerUser()
+        {
+            var user = await userManager.FindByNameAsync("manager@gmail.com");
 
+            if (user != null)
+            {
+                return;
+            }
+
+            user = new IdentityUser
+            {
+                UserName = "manager@gmail.com",
+                Email = "manager@gmail.com"
+            };
+
+            var result = await userManager.CreateAsync(user, "Qwerty123!");
+
+            if (!result.Succeeded)
+            {
+                throw new Exception("Error creating default admin user: " + result.Errors.FirstOrDefault());
+            }
+
+            result = await userManager.AddToRoleAsync(user, RoleNames.Manager.ToString());
+
+            if (!result.Succeeded)
+            {
+                throw new Exception("Error adding default admin user to the role: " + result.Errors.FirstOrDefault());
+            }
+        }
         private async Task CreateAdminUser()
         {
             var user = await userManager.FindByNameAsync(settings.DefaultAdminUserEmail);
