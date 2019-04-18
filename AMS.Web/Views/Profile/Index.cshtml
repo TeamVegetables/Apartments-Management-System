@@ -1,18 +1,21 @@
-﻿
+﻿@using AMS.Core.Models
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<User> UserManager
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var user = UserManager.GetUserAsync(User).Result;
+    var userRole = UserManager.GetRolesAsync(user).Result.FirstOrDefault();
 }
-
 <nav>
     <div class="nav nav-tabs" id="nav-tab" role="tablist">
         <a class="nav-item nav-link active" id="nav-info-tab" data-toggle="tab" href="#nav-info" role="tab" aria-controls="nav-info" aria-selected="true">Info</a>
-        @if (User.IsInRole("Inhabitant"))
-        { 
+        @if (userRole == "Inhabitant")
+        {
             <a class="nav-item nav-link" id="nav-apartments-tab" data-toggle="tab" href="#nav-apartments" role="tab" aria-controls="nav-apartments" aria-selected="false">My Apartments</a>
             <a class="nav-item nav-link" id="nav-requests-tab" data-toggle="tab" href="#nav-requests" role="tab" aria-controls="nav-requests" aria-selected="false">My Requests</a>
         }
-        @if (User.IsInRole("Admin"))
+        @if (userRole == "Admin")
         {
             <a class="nav-item nav-link" id="nav-users-tab" data-toggle="tab" href="#nav-users" role="tab" aria-controls="nav-users" aria-selected="false">Users</a>
         }

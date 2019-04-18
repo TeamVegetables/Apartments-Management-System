@@ -4,9 +4,13 @@
 @inject UserManager<User> UserManager
 @model AMS.Web.ViewModels.Profile.ChangeRoleViewModel
 
+<div class="row justify-content-center">
+    <h2>System Users</h2>
+</div>
 <ul class="list-group">
     @foreach (var user in UserManager.Users)
     {
+        var userRole = UserManager.GetRolesAsync(user).Result.FirstOrDefault();
         <li class="list-group-item">
             <div class="row align-items-center">
                 <div class="col-1">
@@ -16,15 +20,15 @@
                     @user.LastName
                 </div>
                 <div class="col-1">
-                    <span class="badge badge-pill badge-danger">@UserManager.GetRolesAsync(await UserManager.GetUserAsync(User)).Result.FirstOrDefault()</span>
+                    <span class="badge badge-pill badge-danger">@userRole</span>
                 </div>
                 <div class="col-3">
                     Date of birth: <strong>@user.DateOfBirth.ToShortDateString()</strong>
                 </div>
                 <div class="col-4">
-                    <form asp-controller="Profile" asp-action="ChangeRole" method="post">
+                    <form asp-controller="Profile" method="post">
                         <input asp-for="UserId" type="hidden" value="@user.Id" />
-                        <input asp-for="OldRole" type="hidden" value="@UserManager.GetRolesAsync(user).Result.FirstOrDefault()" />
+                        <input asp-for="OldRole" type="hidden" value="@userRole" />
                         <div class="row align-items-center">
                             <div class="col-6">
                                 <select asp-for="NewRole" class="form-control form-control-sm">
@@ -47,3 +51,8 @@
         </li>
     }
 </ul>
+<div class="row justify-content-center mt-3">
+    <form  asp-controller="Profile" asp-action="CreateUser" method="get">
+        <button type="submit" class="btn btn-primary">Create</button>
+    </form>
+</div>
