@@ -22,14 +22,64 @@ namespace AMS.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ChangeRole(ChangeRoleViewModel changeRoleViewModel)
+        public async Task<IActionResult> Index(ChangeRoleViewModel changeRoleViewModel)
         {
             var user = userManager.Users.ToList().Select(u => u).FirstOrDefault(u => u.Id == changeRoleViewModel.UserId);
-            if (user == null) return View("Index");
+            if (user == null) return View();
             await userManager.RemoveFromRoleAsync(user, changeRoleViewModel.OldRole);
             await userManager.AddToRoleAsync(user, changeRoleViewModel.NewRole);
 
-            return View("Index");
+            return View();
+        }
+
+        public IActionResult CreateUser()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateUser(CreateUserViewModel createUserViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await userManager.FindByEmailAsync(createUserViewModel.Email);
+
+                if (user != null)
+                {
+                    ModelState.AddModelError("Error", "User with this email already exists");
+                    return View(createUserViewModel);
+                }
+
+                user = new User
+                {
+                    UserName = createUserViewModel.Email,
+                    Email = createUserViewModel.Email,
+                    FirstName = createUserViewModel.FirstName,
+                    LastName = createUserViewModel.LastName,
+                    DateOfBirth = createUserViewModel.DateOfBirth
+                };
+
+                var result = await userManager.CreateAsync(user, createUserViewModel.Password);
+                if (!result.Succeeded)
+                {
+                    ModelState.AddModelError("Error", "User creating error. Try again later.");
+                    return View(createUserViewModel);
+                }
+
+                result = await userManager.AddToRoleAsync(user, createUserViewModel.Role);
+
+                if (!result.Succeeded)
+                {
+                    ModelState.AddModelError("Error", "User creating error. Try again later.");
+                    return View(createUserViewModel);
+                }
+
+                return Index();
+            }
+            else
+            {
+                return View(createUserViewModel);
+            }
         }
     }
 }
