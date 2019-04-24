@@ -1,0 +1,51 @@
+﻿@using AMS.Core.Models
+@model AMS.Web.ViewModels.Apartments.CreateApartmentViewModel
+
+@{
+    ViewData["Title"] = "CreateApartment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row justify-content-sm-center">
+    <h1>Create new Apartment</h1>
+</div>
+<hr />
+<div class="row justify-content-sm-center">
+    <div class="col-md-4">
+        <form asp-action="CreateApartment">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Capacity" class="control-label"></label>
+                <input asp-for="Capacity" class="form-control" />
+                <span asp-validation-for="Capacity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Busy" class="control-label"></label>
+                <input asp-for="Busy" class="form-control" />
+                <span asp-validation-for="Busy" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label>
+                <select asp-for="Status" class="form-control form-control">
+                    @foreach (var status in Enum.GetNames(typeof(ApartmentStatus)))
+                    {
+                        <option>@status</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

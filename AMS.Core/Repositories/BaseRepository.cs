@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AMS.Core.Repositories
 {
-    public class BaseRepository<TEntity> : IDisposable, IGenericRepository<TEntity> where TEntity: class
+    public class BaseRepository<TEntity> : IDisposable, IGenericRepository<TEntity> where TEntity : class
     {
         protected readonly DbContext _context;
 

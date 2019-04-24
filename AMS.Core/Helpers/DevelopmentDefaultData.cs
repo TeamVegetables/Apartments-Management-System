@@ -50,6 +50,7 @@ namespace AMS.Core.Helpers
                 }
             }
         }
+
         private async Task CreateManagerUser()
         {
             var user = await userManager.FindByNameAsync("manager@gmail.com");
@@ -79,6 +80,7 @@ namespace AMS.Core.Helpers
                 throw new Exception("Error adding default admin user to the role: " + result.Errors.FirstOrDefault());
             }
         }
+
         private async Task CreateAdminUser()
         {
             var user = await userManager.FindByNameAsync(settings.DefaultAdminUserEmail);

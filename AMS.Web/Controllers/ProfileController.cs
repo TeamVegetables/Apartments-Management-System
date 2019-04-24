@@ -74,12 +74,10 @@ namespace AMS.Web.Controllers
                     return View(createUserViewModel);
                 }
 
-                return Index();
+                return RedirectToAction("Index");
             }
-            else
-            {
-                return View(createUserViewModel);
-            }
+
+            return View(createUserViewModel);
         }
     }
 }

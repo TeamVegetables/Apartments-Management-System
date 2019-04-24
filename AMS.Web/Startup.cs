@@ -1,6 +1,10 @@
 ﻿using AMS.Core.Config;
 using AMS.Core.Helpers;
+using AMS.Core.Interfaces;
 using AMS.Core.Models;
+using AMS.Core.Repositories;
+using AMS.Services.Interfaces;
+using AMS.Services.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
@@ -89,6 +93,10 @@ namespace AMS.Web
         private void AddApplicationServices(IServiceCollection services)
         {
             services.AddScoped<DevelopmentDefaultData>();
+            services.AddScoped<BaseService>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IApartmentRepository, ApartmentRepository>();
+            services.AddScoped<IApartmentService, ApartmentService>();
         }
     }
 }

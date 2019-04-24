@@ -1,35 +1,50 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using AMS.Core.Models;
+using AMS.Services.Interfaces;
+using AMS.Web.ViewModels.Apartments;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace AMS.Web.Controllers
 {
     public class ApartmentsController : Controller
     {
-        // GET: /<controller>/
-        public IActionResult Index()
+        private readonly IApartmentService apartmentService;
+
+        public ApartmentsController(IApartmentService apartmentService)
         {
-            List<Apartment> apartments = new List<Apartment>();
-            apartments.Add(new Apartment {
-                Title = ("Test apartment"),
-                Capacity = 3,
-            });
-            apartments.Add(new Apartment
-            {
-                Title = ("Test apartment"),
-                Capacity = 3,
-            });
-            apartments.Add(new Apartment
-            {
-                Title = ("Test apartment"),
-                Capacity = 3,
-            });
+            this.apartmentService = apartmentService;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            var apartments = await apartmentService.GetAllApartmentsAsync();
             return View(apartments);
+        }
+
+        [HttpGet]
+        public IActionResult CreateApartment()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateApartment(CreateApartmentViewModel createApartmentViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var apartment = new Apartment
+                {
+                    Busy = createApartmentViewModel.Busy,
+                    Capacity = createApartmentViewModel.Capacity,
+                    Status = createApartmentViewModel.Status,
+                    Title = createApartmentViewModel.Title
+                };
+                await apartmentService.AddApartmentAsync(apartment);
+
+                return RedirectToAction("Index");
+            }
+
+            return View(createApartmentViewModel);
         }
     }
 }

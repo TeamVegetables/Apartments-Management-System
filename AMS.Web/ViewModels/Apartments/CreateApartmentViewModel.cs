@@ -1,9 +1,9 @@
-﻿namespace AMS.Core.Models
-{
-    public class Apartment
-    {
-        public int Id { get; set; }
+﻿using AMS.Core.Models;
 
+namespace AMS.Web.ViewModels.Apartments
+{
+    public class CreateApartmentViewModel
+    {
         public string Title { get; set; }
 
         public int Capacity { get; set; }

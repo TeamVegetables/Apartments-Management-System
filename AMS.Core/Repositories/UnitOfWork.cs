@@ -4,7 +4,7 @@ using AMS.Core.Models;
 
 namespace AMS.Core.Repositories
 {
-    public class UnitOfWork: IUnitOfWork
+    public class UnitOfWork : IUnitOfWork
     {
         private  IPaymentRepository _paymentRepository;
         private  IRentInfoRepository _rentInfoRepository;
