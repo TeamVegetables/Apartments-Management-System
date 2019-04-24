@@ -11,7 +11,9 @@ namespace AMS.Core.Models
 
         public DateTime DateOfBirth { get; set; }
 
-        public int ApartmentId { get; set; }
+        public Apartment Apartment { get; set; }
+
+        public int? ApartmentId { get; set; }
 
         public int? ManagerId { get; set; }
     }

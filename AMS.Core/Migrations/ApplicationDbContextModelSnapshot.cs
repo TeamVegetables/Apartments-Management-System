@@ -110,7 +110,7 @@ namespace AMS.Core.Migrations
 
                     b.Property<int>("AccessFailedCount");
 
-                    b.Property<int>("ApartmentId");
+                    b.Property<int?>("ApartmentId");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
@@ -152,6 +152,8 @@ namespace AMS.Core.Migrations
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ApartmentId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -276,6 +278,13 @@ namespace AMS.Core.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("AMS.Core.Models.User", b =>
+                {
+                    b.HasOne("AMS.Core.Models.Apartment", "Apartment")
+                        .WithMany("Inhabitants")
+                        .HasForeignKey("ApartmentId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

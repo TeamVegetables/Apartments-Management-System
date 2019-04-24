@@ -2,7 +2,7 @@
 @using Microsoft.AspNetCore.Identity
 @inject UserManager<User> UserManager
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Profile";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var user = UserManager.GetUserAsync(User).Result;
     var userRole = UserManager.GetRolesAsync(user).Result.FirstOrDefault();
