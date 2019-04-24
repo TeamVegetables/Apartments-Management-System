@@ -1,10 +1,12 @@
 ﻿@using AMS.Core.Models
 @model IEnumerable<AMS.Core.Models.Apartment>
-
+@{
+    ViewData["Title"] = "Apartments";
+}
 <div class="container">
     <div class="row">
         <div class="col">
-            <form  asp-controller="Apartments" asp-action="CreateApartment" method="get">
+            <form asp-controller="Apartments" asp-action="CreateApartment" method="get">
                 <button type="submit" class="btn btn-primary">Create</button>
             </form>
         </div>
@@ -23,34 +25,35 @@
         <tbody>
             @foreach (var item in Model)
             {
-            <tr>
-                <th scope="row">@item.Id</th>
-                <td>@item.Title</td>
-                <td>@item.Capacity</td>
-                <td>@item.Busy</td>
-                <td>
-                    @if (item.Status == ApartmentStatus.Available)
-                    {
-                        <span class="badge badge-pill badge-success">@item.Status.ToString()</span>
-                    }
-                    else
-                    {
-                        <span class="badge badge-pill badge-danger">@item.Status.ToString()</span>
-                    }
-                </td>
-                <td class="d-flex">
-                    <form>
-                        <button type="submit" class="btn btn-sm btn-primary mr-1">
-                            Add inhabitant
-                        </button>
-                    </form>
-                    <form>
-                        <button type="submit" class="btn btn-sm btn-danger ml-1">
-                            Delete
-                        </button>
-                    </form>
-                </td>
-            </tr>
+                <tr>
+                    <th scope="row">@item.Id</th>
+                    <td>@item.Title</td>
+                    <td>@item.Capacity</td>
+                    <td>@item.Busy</td>
+                    <td>
+                        @if (item.Status == ApartmentStatus.Available)
+                        {
+                            <span class="badge badge-pill badge-success">@item.Status.ToString()</span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-pill badge-danger">@item.Status.ToString()</span>
+                        }
+                    </td>
+                    <td class="d-flex">
+                        <form asp-action="ManageInhabitants" method="get">
+                            <button type="submit" class="btn btn-sm btn-primary mr-1">
+                                Manage inhabitants
+                            </button>
+                        </form>
+                        <form asp-action="Delete" method="post">
+                            <input type="hidden" value="@item.Id" name="apartmentId" />
+                            <button type="submit" class="btn btn-sm btn-danger ml-1">
+                                Delete
+                            </button>
+                        </form>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>

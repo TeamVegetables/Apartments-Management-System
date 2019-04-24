@@ -46,5 +46,23 @@ namespace AMS.Web.Controllers
 
             return View(createApartmentViewModel);
         }
+
+        [HttpGet]
+        public IActionResult ManageInhabitants()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int apartmentId)
+        {
+            var apartment = await apartmentService.GetApartmentAsync(apartmentId);
+            if (apartment != null)
+            {
+                await apartmentService.RemoveApartmentAsync(apartment);
+            }
+
+            return RedirectToAction("Index");
+        }
     }
 }

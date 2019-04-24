@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AMS.Core.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190424184746_Added-field")]
-    partial class Addedfield
+    [Migration("20190424194742_ApartmentUserReference")]
+    partial class ApartmentUserReference
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,28 +27,17 @@ namespace AMS.Core.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ApartmentStatusId");
+                    b.Property<int>("Busy");
 
                     b.Property<int>("Capacity");
+
+                    b.Property<int>("Status");
 
                     b.Property<string>("Title");
 
                     b.HasKey("Id");
 
                     b.ToTable("Apartments");
-                });
-
-            modelBuilder.Entity("AMS.Core.Models.ApartmentStatus", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Title");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ApartmentStatuses");
                 });
 
             modelBuilder.Entity("AMS.Core.Models.Payment", b =>
@@ -72,19 +61,6 @@ namespace AMS.Core.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Payments");
-                });
-
-            modelBuilder.Entity("AMS.Core.Models.PaymentStatus", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Title");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PaymentStatuses");
                 });
 
             modelBuilder.Entity("AMS.Core.Models.RentInfo", b =>
@@ -129,19 +105,6 @@ namespace AMS.Core.Migrations
                     b.ToTable("Requests");
                 });
 
-            modelBuilder.Entity("AMS.Core.Models.RequestStatus", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Title");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("RequestStatuses");
-                });
-
             modelBuilder.Entity("AMS.Core.Models.User", b =>
                 {
                     b.Property<string>("Id")
@@ -149,7 +112,7 @@ namespace AMS.Core.Migrations
 
                     b.Property<int>("AccessFailedCount");
 
-                    b.Property<int>("ApartmentId");
+                    b.Property<int?>("ApartmentId");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
@@ -191,6 +154,8 @@ namespace AMS.Core.Migrations
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ApartmentId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -315,6 +280,13 @@ namespace AMS.Core.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("AMS.Core.Models.User", b =>
+                {
+                    b.HasOne("AMS.Core.Models.Apartment", "Apartment")
+                        .WithMany("Inhabitants")
+                        .HasForeignKey("ApartmentId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

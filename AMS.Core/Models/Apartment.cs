@@ -1,4 +1,6 @@
-﻿namespace AMS.Core.Models
+﻿using System.Collections.Generic;
+
+namespace AMS.Core.Models
 {
     public class Apartment
     {
@@ -11,5 +13,7 @@
         public int Busy { get; set; }
 
         public ApartmentStatus Status { get; set; }
+
+        public List<User> Inhabitants { get; set; }
     }
 }

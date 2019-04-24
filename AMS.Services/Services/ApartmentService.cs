@@ -31,11 +31,13 @@ namespace AMS.Services.Services
         public async Task UpdateApartmentAsync(Apartment apartment)
         {
             await _uow.Apartments.UpdateAsync(apartment);
+            await _uow.SaveAsync();
         }
 
         public async Task RemoveApartmentAsync(Apartment apartment)
         {
             await _uow.Apartments.RemoveAsync(apartment);
+            await _uow.SaveAsync();
         }        
     }
 }
