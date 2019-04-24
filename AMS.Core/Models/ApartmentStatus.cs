@@ -1,9 +1,8 @@
 ﻿namespace AMS.Core.Models
 {
-    public class ApartmentStatus
+    public enum ApartmentStatus
     {
-        public int Id { get; set; }
-
-        public string Title { get; set; }
+        Available,
+        Busy
     }
 }

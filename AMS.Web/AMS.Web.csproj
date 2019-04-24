@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AMS.Core\AMS.Core.csproj" />
+    <ProjectReference Include="..\AMS.Services\AMS.Services.csproj" />
   </ItemGroup>
 
 </Project>

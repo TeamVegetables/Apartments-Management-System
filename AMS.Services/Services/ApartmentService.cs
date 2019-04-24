@@ -6,7 +6,7 @@ using AMS.Services.Interfaces;
 
 namespace AMS.Services.Services
 {
-    public class ApartmentService: BaseService, IApartmentService
+    public class ApartmentService : BaseService, IApartmentService
     {
         public ApartmentService(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
@@ -25,6 +25,7 @@ namespace AMS.Services.Services
         public async Task AddApartmentAsync(Apartment apartment)
         {
             await _uow.Apartments.AddAsync(apartment);
+            await _uow.SaveAsync();
         }
 
         public async Task UpdateApartmentAsync(Apartment apartment)
