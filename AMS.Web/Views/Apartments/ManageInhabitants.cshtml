@@ -1,8 +1,82 @@
-﻿
+﻿@using AMS.Core.Models
+@using AMS.Services.Interfaces
+@using Microsoft.AspNetCore.Identity
+@inject IApartmentService ApartmentService
+@inject UserManager<User> UserManager
+@model AMS.Web.ViewModels.Apartments.ManageInhabitantViewModel;
 @{
     ViewData["Title"] = "ManageInhabitants";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var users = UserManager.Users.Select(u => u).Where(u => u.Apartment == null).ToList();
+    users.RemoveAll(u => !UserManager.IsInRoleAsync(u, "Inhabitant").Result);
+    var inhabitants = ApartmentService.GetApartmentWithUsers(Model.ApartmentId).Inhabitants;
 }
 
-<h1>Manage Inhabitants</h1>
+<div class="row justify-content-center">
+    <h2>Apartment Inhabitants</h2>
+</div>
+@if (inhabitants != null && inhabitants.Any())
+{
+    <ul class="list-group">
+        @foreach (var inhabitant in inhabitants)
+        {
+            <li class="list-group-item">
+                <div class="row align-items-center">
+                    <div class="col-3">
+                        @inhabitant.FirstName
+                    </div>
+                    <div class="col-3">
+                        @inhabitant.LastName
+                    </div>
+                    <div class="col-3">
+                        Date of birth: <strong>@inhabitant.DateOfBirth.ToShortDateString()</strong>
+                    </div>
+                    <div class="col-3">
+                        <form asp-action="RemoveInhabitant">
+                            <input asp-for="InhabitantId" type="hidden" value="@inhabitant.Id"/>
+                            <input asp-for="ApartmentId" type="hidden" value="@Model.ApartmentId"/>
+                            <button type="submit" class="btn btn-danger">Remove</button>
+                        </form>
+                    </div>
+                </div>
+            </li>
+        }
+    </ul>
+}
 
+<div class="row justify-content-center mt-2">
+    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal">
+        Add inhabitant
+    </button>
+</div>
+
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">Add inhabitant</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form asp-action="AddInhabitant">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input asp-for="ApartmentId" type="hidden" value="@Model.ApartmentId" />
+                        <label asp-for="InhabitantId" class="control-label">Choose the inhabitant</label>
+                        <select asp-for="InhabitantId" class="form-control form-control">
+                            @foreach (var user in users)
+                            {
+                                <option value="@user.Id">@user.FirstName @user.LastName</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

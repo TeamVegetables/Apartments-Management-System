@@ -4,15 +4,16 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AMS.Core.Interfaces;
+using AMS.Core.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace AMS.Core.Repositories
 {
     public class BaseRepository<TEntity> : IDisposable, IGenericRepository<TEntity> where TEntity : class
     {
-        protected readonly DbContext _context;
+        protected readonly ApplicationDbContext _context;
 
-        public BaseRepository(DbContext context)
+        public BaseRepository(ApplicationDbContext context)
         {
             _context = context;
         }
