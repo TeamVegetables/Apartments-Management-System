@@ -4,57 +4,56 @@
     ViewData["Title"] = "Apartments";
 }
 <div class="container">
-    <div class="row">
-        <div class="col">
-            <form asp-controller="Apartments" asp-action="CreateApartment" method="get">
-                <button type="submit" class="btn btn-primary">Create</button>
-            </form>
-        </div>
-    </div>
-    <table class="table">
+    <table class="table mt-2">
         <thead class="thead-light">
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Title</th>
-                <th scope="col">Cpacity</th>
-                <th scope="col">Busy</th>
-                <th scope="col">Status</th>
-                <th scope="col">Manage</th>
-            </tr>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Title</th>
+            <th scope="col">Cpacity</th>
+            <th scope="col">Busy</th>
+            <th scope="col">Status</th>
+            <th scope="col">Manage</th>
+        </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <th scope="row">@item.Id</th>
-                    <td>@item.Title</td>
-                    <td>@item.Capacity</td>
-                    <td>@item.Busy</td>
-                    <td>
-                        @if (item.Status == ApartmentStatus.Available)
-                        {
-                            <span class="badge badge-pill badge-success">@item.Status.ToString()</span>
-                        }
-                        else
-                        {
-                            <span class="badge badge-pill badge-danger">@item.Status.ToString()</span>
-                        }
-                    </td>
-                    <td class="d-flex">
-                        <form asp-action="ManageInhabitants" method="get">
-                            <button type="submit" class="btn btn-sm btn-primary mr-1">
-                                Manage inhabitants
-                            </button>
-                        </form>
-                        <form asp-action="Delete" method="post">
-                            <input type="hidden" value="@item.Id" name="apartmentId" />
-                            <button type="submit" class="btn btn-sm btn-danger ml-1">
-                                Delete
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-            }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th scope="row">@item.Id</th>
+                <td>@item.Title</td>
+                <td>@item.Capacity</td>
+                <td>@item.Busy</td>
+                <td>
+                    @if (item.Status == ApartmentStatus.Available)
+                    {
+                        <span class="badge badge-pill badge-success">@item.Status.ToString()</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-pill badge-danger">@item.Status.ToString()</span>
+                    }
+                </td>
+                <td class="d-flex">
+                    <form asp-action="ManageInhabitants" method="get">
+                        <input type="hidden" value="@item.Id" name="apartmentId" />
+                        <button type="submit" class="btn btn-sm btn-primary mr-1">
+                            Manage inhabitants
+                        </button>
+                    </form>
+                    <form asp-action="Delete" method="post">
+                        <input type="hidden" value="@item.Id" name="apartmentId" />
+                        <button type="submit" class="btn btn-sm btn-danger ml-1">
+                            Delete
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
         </tbody>
     </table>
+    <div class="row justify-content-center">
+        <form asp-controller="Apartments" asp-action="CreateApartment" method="get">
+            <button type="submit" class="btn btn-success">Create</button>
+        </form>
+    </div>
 </div>

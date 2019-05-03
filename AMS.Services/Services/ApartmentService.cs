@@ -17,6 +17,16 @@ namespace AMS.Services.Services
             return await _uow.Apartments.GetAsync(id);
         }
 
+        public Apartment GetApartmentWithUsers(int id)
+        {
+            return _uow.Apartments.GetWithUsers(id);
+        }
+
+        public IEnumerable<Apartment> GetAllWithUsers()
+        {
+            return _uow.Apartments.GetAllWithUsers();
+        }
+
         public async Task<ICollection<Apartment>> GetAllApartmentsAsync()
         {
             return await _uow.Apartments.GetAllAsync();

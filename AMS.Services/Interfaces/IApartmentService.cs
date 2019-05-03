@@ -12,5 +12,7 @@ namespace AMS.Services.Interfaces
         Task AddApartmentAsync(Apartment apartment);
         Task UpdateApartmentAsync(Apartment apartment);
         Task RemoveApartmentAsync(Apartment apartment);
+        Apartment GetApartmentWithUsers(int id);
+        IEnumerable<Apartment> GetAllWithUsers();
     }
 }
