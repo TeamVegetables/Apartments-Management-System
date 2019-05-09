@@ -8,6 +8,8 @@ namespace AMS.Core.Models
 
         public int ApartmentId { get; set; }
 
+        public Apartment Apartment { get; set; }
+
         public PaymentStatus Status { get; set; }
 
         public decimal Sum { get; set; }
