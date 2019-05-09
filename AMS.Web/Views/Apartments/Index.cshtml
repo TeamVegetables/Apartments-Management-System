@@ -34,10 +34,16 @@
                     }
                 </td>
                 <td class="d-flex">
-                    <form asp-action="CreatePayment" asp-controller="Payments" method="get">
+                    <form asp-action="GetPayments" asp-controller="Payments" asp-route-apartmentId="@item.Id" method="get">
                         <input type="hidden" value="@item.Id" name="apartmentId" />
+                        <button type="submit" class="btn btn-sm btn-dark mr-1">
+                            Show Payments
+                        </button>
+                    </form>
+                    <form asp-action="CreatePayment" asp-controller="Payments" method="get">
+                        <input type="hidden" value="@item.Id" name="apartmentId"/>
                         <button type="submit" class="btn btn-sm btn-success mr-1">
-                            Manage inhabitants
+                            Add Payment
                         </button>
                     </form>
                     <form asp-action="ManageInhabitants" method="get">

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using AMS.Core.Models;
 using AMS.Services.Interfaces;
 using AMS.Web.ViewModels.Payments;
@@ -20,9 +21,10 @@ namespace AMS.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult CreatePayment()
+        public IActionResult CreatePayment(int apartmentId)
         {
-            return View();
+            var viewModel = new CreatePaymentViewModel { ApartmentId = apartmentId };
+            return View(viewModel);
         }
 
         [HttpPost]
@@ -32,7 +34,11 @@ namespace AMS.Web.Controllers
             {
                 var payment = new Payment
                 {
-                    
+                    Sum = createApartmentViewModel.Sum,
+                    DeadLine = createApartmentViewModel.DeadLine,
+                    Initiated = DateTime.Now,
+                    ApartmentId = createApartmentViewModel.ApartmentId,
+                    Status = PaymentStatus.Waiting
                 };
                 await paymentService.AddPaymentAsync(payment);
 
@@ -40,6 +46,13 @@ namespace AMS.Web.Controllers
             }
 
             return View(createApartmentViewModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetPayments(int apartmentId)
+        {
+            var payments = await paymentService.GetPaymentsByApartment(apartmentId);
+            return  View(payments);
         }
 
         public async Task<IActionResult> Index()

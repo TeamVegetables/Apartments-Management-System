@@ -14,6 +14,8 @@
     <div class="col-md-4">
         <form asp-action="CreatePayment">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            <input asp-for="ApartmentId" type="hidden" value="@Model.ApartmentId"/>
             <div class="form-group">
                 <label asp-for="Sum" class="control-label"></label>
                 <input asp-for="Sum" type="number" class="form-control" />

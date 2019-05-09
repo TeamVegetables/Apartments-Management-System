@@ -96,7 +96,9 @@ namespace AMS.Web
             services.AddScoped<BaseService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IApartmentRepository, ApartmentRepository>();
+            services.AddScoped<IPaymentRepository, PaymentRepository>();
             services.AddScoped<IApartmentService, ApartmentService>();
+            services.AddScoped<IPaymentService, PaymentService>();
         }
     }
 }
