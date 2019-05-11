@@ -13,6 +13,7 @@ namespace AMS.Services.Interfaces
         Task AddPaymentAsync(Payment payment);
         Task UpdatePaymentAsync(Payment payment);
         Task RemovePaymentAsync(Payment payment);
-        
+        Task ChangeStatus(Payment payment);
+
     }
 }

@@ -46,6 +46,10 @@
                         {
                             <a class="nav-link text-light" asp-area="" asp-controller="Apartments" asp-action="Index">Appartaments</a>
                         }
+                        @if (userRole == "Inhabitant")
+                        {
+                            <a class="nav-link text-light" asp-area="" asp-controller="Apartments" asp-action="GetApartmentByInhabitantId">My Appartament</a>
+                        }
                     </ul>
                 </div>
             </div>
