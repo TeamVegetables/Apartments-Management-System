@@ -1,0 +1,75 @@
+﻿@using AMS.Core.Models
+@using AMS.Services.Interfaces
+@inject IPaymentService PaymentService
+@model AMS.Web.ViewModels.Payments.ChangePaymentViewModel
+
+@{
+    ViewData["Title"] = "Payments";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var paymentsByApartmentId = PaymentService.GetPaymentsByApartment(Model.ApartmentId).Result.ToList();
+}
+
+
+<div class="row justify-content-center">
+    <h2>Payments</h2>
+</div>
+<ul class="list-group">
+    @foreach (var payment  in paymentsByApartmentId)
+    {
+        <li class="list-group-item">
+            <div class="row align-items-center">
+                <div class="col-1">
+                    @payment.Apartment.Title
+                </div>
+                <div class="col-1">
+                    @payment.Sum
+                </div>
+
+                <div class="col-2">
+                    Initiated: <strong>@payment.Initiated.ToShortDateString()</strong>
+                </div>
+               
+                <div class="col-8">
+                    <form asp-controller="Payments" method="post">
+
+                        <input asp-for="PaymentId" type="hidden" value="@payment.Id"/>
+
+                        <div class="row">
+                            <div class="col">
+                                <div class="row justify-content-center">
+                                    <div class="col text-center m-2">
+                                        Deadline:
+                                    </div>
+                                    <div class="col-6">
+
+                                        <input asp-for="DeadLine" type="date" class="form-control"
+                                               value="@payment.DeadLine.ToString("yyyy-MM-dd")"/>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="col-2">
+                                <select asp-for="NewStatus" class="form-control form-control-sm">
+                                    <option selected>
+                                            @payment.Status.ToString()
+                                    </option>
+                                    @foreach (var status in Enum.GetNames(typeof(PaymentStatus)))
+                                    {
+                                        if (@status != @payment.Status.ToString())
+                                        {
+                                            <option>@status</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-5">
+                                <button type="submit" class="btn btn-success">Change Payment</button>
+                            </div>
+                        </div>
+                    </form>
+        </div>
+                </div>
+        </li>
+    }
+</ul>

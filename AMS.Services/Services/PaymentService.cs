@@ -17,6 +17,11 @@ namespace AMS.Services.Services
             return await _uow.Payments.GetAsync(id);
         }
 
+        public async Task<ICollection<Payment>> GetPaymentsByApartment(int apartmentId)
+        {
+            return await _uow.Payments.GetPaymentsByApartment(apartmentId);
+        }
+
         public async Task<ICollection<Payment>> GetAllPaymentsAsync()
         {
             return await _uow.Payments.GetAllAsync();
@@ -25,16 +30,20 @@ namespace AMS.Services.Services
         public async Task AddPaymentAsync(Payment payment)
         {
             await _uow.Payments.AddAsync(payment);
+            await _uow.SaveAsync();
         }
 
         public async Task UpdatePaymentAsync(Payment payment)
         {
             await _uow.Payments.UpdateAsync(payment);
+            await _uow.SaveAsync();
         }
 
         public async Task RemovePaymentAsync(Payment payment)
         {
             await _uow.Payments.RemoveAsync(payment);
+            await _uow.SaveAsync();
         }
+    
     }
 }

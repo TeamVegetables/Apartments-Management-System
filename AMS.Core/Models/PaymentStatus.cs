@@ -1,9 +1,10 @@
 ﻿namespace AMS.Core.Models
 {
-    public class PaymentStatus
+    public enum PaymentStatus
     {
-        public int Id { get; set; }
-
-        public string Title { get; set; }
+        Waiting,
+        Paid,
+        Overdue,
+        PaidLate
     }
 }
