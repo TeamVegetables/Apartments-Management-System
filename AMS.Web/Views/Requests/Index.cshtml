@@ -17,8 +17,7 @@
     }
     else if(UserManager.IsInRoleAsync(currentUser, "Manager").Result)
     {
-        //requestEntities = RequestService.GetRequestsByResolverId(currentUser.Id).Result.ToList();
-        requestEntities = RequestService.GetAllRequestsAsync().Result.ToList();
+        requestEntities = RequestService.GetRequestsByResolverId(currentUser.Id).Result.ToList();
     }
 
     var RequestViews = Mapper.Map<ICollection<Request>, IEnumerable<RequestViewModel>>(requestEntities);
@@ -82,14 +81,16 @@
                                     <div class="row align-items-center">
                                         <div class="col-7">
                                             <select asp-for="Status" class="form-control form-control">
-                                                <option selected="selected">@request.Status</option>
                                                 @foreach (var status in Enum.GetNames(typeof(RequestStatus)))
                                                 {
                                                     if (status != request.Status.ToString())
                                                     {
-                                                        <option>@status</option>
+                                                        <option value="@status">@status</option>
                                                     }
                                                 }
+                                                <option value="@request.Status" selected="selected">
+                                                    @request.Status.ToString()
+                                                </option>
                                             </select>
                                         </div>
                                         <div class="col-5">

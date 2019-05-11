@@ -24,7 +24,7 @@
                 <span asp-validation-for="Message" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" @string.IsNullOrEmpty(currentUser.ManagerId) ? disabled="true"  />
+                <input type="submit" value="Create" class="btn btn-primary" disabled="@string.IsNullOrEmpty(currentUser.ManagerId)" />
             </div>
         </form>
     </div>
