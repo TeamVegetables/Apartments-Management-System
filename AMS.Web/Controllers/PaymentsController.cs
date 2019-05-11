@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AMS.Core.Models;
 using AMS.Services.Interfaces;
@@ -70,6 +72,29 @@ namespace AMS.Web.Controllers
             return View(changePaymentViewModel);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> InhabitantChangePayments()
+        {
+            var user = await userManager.GetUserAsync(User);
+            var payments = new List<Payment>();
+            if (user.ApartmentId.HasValue)
+            {
+                payments = (await paymentService.GetPaymentsByApartment(user.ApartmentId.Value)).ToList();
+            }
+
+            return View(payments);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> InhabitantChangePayments(int paymentId)
+        {
+            var payment = await paymentService.GetPaymentAsync(paymentId);
+            payment.Completed = DateTime.Now;
+            await paymentService.UpdatePaymentAsync(payment);
+            await paymentService.ChangeStatus(payment);
+
+            return RedirectToAction("InhabitantChangePayments");
+        }
 
 
         public async Task<IActionResult> Index()
