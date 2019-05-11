@@ -25,11 +25,6 @@
                 <span asp-validation-for="Capacity" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Busy" class="control-label"></label>
-                <input asp-for="Busy" class="form-control" />
-                <span asp-validation-for="Busy" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="Status" class="control-label"></label>
                 <select asp-for="Status" class="form-control form-control">
                     @foreach (var status in Enum.GetNames(typeof(ApartmentStatus)))

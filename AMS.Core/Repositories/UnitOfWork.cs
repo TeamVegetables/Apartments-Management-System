@@ -10,6 +10,7 @@ namespace AMS.Core.Repositories
         private  IRentInfoRepository _rentInfoRepository;
         private  IRequestRepository _requestRepository;
         private  IApartmentRepository _apartmentRepository;
+        private INotificationRepository _notificationRepository;
 
         private readonly ApplicationDbContext _context;
 
@@ -26,6 +27,8 @@ namespace AMS.Core.Repositories
         public IRentInfoRepository RentInfos => _rentInfoRepository ?? (_rentInfoRepository = new RentInfoRepository(_context));
 
         public IRequestRepository Requests => _requestRepository ?? (_requestRepository = new RequestRepository(_context));
+
+        public INotificationRepository Notifications => _notificationRepository ?? (_notificationRepository = new NotificationRepository(_context));
 
         public void Dispose()
         {

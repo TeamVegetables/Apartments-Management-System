@@ -1,0 +1,23 @@
+﻿@model AMS.Core.Models.Apartment
+
+@{
+    ViewData["Title"] = "My Apartment";
+}
+
+<div class="container">
+    <div class="row text-center">
+        <div class="col">
+            <h2>Title: @Model.Title</h2>
+        </div>
+    </div>
+    <div class="row text-center">
+        <div class="col">
+            <h3>Busy: @Model.Busy</h3>
+        </div>
+    </div>
+    <div class="row text-center">
+        <div class="col">
+            <h3>Capacity: @Model.Capacity</h3>
+        </div>
+    </div>
+</div>
