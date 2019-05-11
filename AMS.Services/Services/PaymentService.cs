@@ -48,10 +48,10 @@ namespace AMS.Services.Services
 
         public async Task ChangeStatus(Payment payment)
         {
-            if (payment.Completed.HasValue)
+            if (payment.Completed.HasValue && 
+                (payment.Status != PaymentStatus.Paid || payment.Status != PaymentStatus.PaidLate))
             {
-                payment.Status = payment.DeadLine >= payment.Completed.Value ? 
-                    PaymentStatus.Paid : PaymentStatus.PaidLate;
+                payment.Status = PaymentStatus.NotConfirmPaid;
             }
             else
             {

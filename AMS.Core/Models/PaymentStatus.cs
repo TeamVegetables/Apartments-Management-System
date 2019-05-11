@@ -3,6 +3,7 @@
     public enum PaymentStatus
     {
         Waiting,
+        NotConfirmPaid,
         Paid,
         Overdue,
         PaidLate

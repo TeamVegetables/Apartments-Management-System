@@ -30,7 +30,7 @@
                     <form asp-controller="Payments" asp-action="InhabitantChangePayments"
                           asp-route-paymentId="@payment.Id" method="post">
                         <div class="row">
-                            <div class="col-8">
+                            <div class="col-7">
                                 <div class="row align-content-center">
                                     <div class="col-6">
                                         Deadline: <strong>@payment.DeadLine.ToShortDateString()</strong>
@@ -50,15 +50,22 @@
                             <div class="col-3">
                                 Status:<strong>@payment.Status</strong>
                             </div>
-                            @if (@payment.Status != PaymentStatus.Paid && @payment.Status != PaymentStatus.PaidLate)
+                            @if (@payment.Status == PaymentStatus.NotConfirmPaid)
                             {
-                                <div class="col-1">
+                            <div class="col-2">
+                                <button type="submit" disabled="disabled" class="btn btn-dark">Not Confirm</button>
+                            </div>
+                            }
+                            else if (@payment.Status != PaymentStatus.Paid && @payment.Status != PaymentStatus.PaidLate)
+                            {
+                                <div class="col-2">
                                     <button type="submit" class="btn btn-warning">Pay</button>
                                 </div>
                             }
-                            else 
+                            
+                            else
                             {
-                                <div class="col-1">
+                                <div class="col-2">
                                     <button type="submit" disabled="disabled" class="btn btn-success">Paid</button>
                                 </div>
                             }
