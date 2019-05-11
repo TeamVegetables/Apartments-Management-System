@@ -49,11 +49,28 @@ namespace AMS.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetPayments(int apartmentId)
+        public IActionResult ChangePayments(int apartmentId)
         {
-            var payments = await paymentService.GetPaymentsByApartment(apartmentId);
-            return  View(payments);
+            var changePaymentViewModel = new ChangePaymentViewModel
+            {
+                ApartmentId = apartmentId
+            };
+
+            return View(changePaymentViewModel);
         }
+
+        [HttpPost]
+        public async  Task<IActionResult> ChangePayments(ChangePaymentViewModel changePaymentViewModel)
+        {
+            var payment = await paymentService.GetPaymentAsync(changePaymentViewModel.PaymentId);
+            payment.DeadLine = changePaymentViewModel.DeadLine;
+            payment.Status = changePaymentViewModel.NewStatus;
+            await paymentService.UpdatePaymentAsync(payment);
+
+            return View(changePaymentViewModel);
+        }
+
+
 
         public async Task<IActionResult> Index()
         {
