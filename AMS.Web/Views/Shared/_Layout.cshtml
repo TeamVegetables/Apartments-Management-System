@@ -45,6 +45,11 @@
                         @if (userRole == "Manager")
                         {
                             <a class="nav-link text-light" asp-area="" asp-controller="Apartments" asp-action="Index">Appartaments</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Requests" asp-action="Index">Requests</a>
+                        }
+                        @if (userRole == "Inhabitant")
+                        {
+                            <a class="nav-link text-light" asp-area="" asp-controller="Requests" asp-action="Index">Requests</a>
                         }
                     </ul>
                 </div>

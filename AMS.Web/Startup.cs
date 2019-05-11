@@ -103,6 +103,7 @@ namespace AMS.Web
             services.AddScoped<IPaymentRepository, PaymentRepository>();
             services.AddScoped<IApartmentService, ApartmentService>();
             services.AddScoped<IRequestService, RequestService>();
+            services.AddScoped<IPaymentService, PaymentService>();
         }
 
         private void AddAutoMapper(IServiceCollection services)

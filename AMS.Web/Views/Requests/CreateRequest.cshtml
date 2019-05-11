@@ -1,9 +1,14 @@
 ﻿@using AMS.Core.Identity
+@using AMS.Core.Models
+@using Microsoft.AspNetCore.Identity
 @model AMS.Web.ViewModels.Request.CreateRequestViewModel
+@inject UserManager<User> userManger;
 
 @{
     ViewData["Title"] = "Create Request";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var currentUser = userManger.GetUserAsync(User).Result;
 }
 <div class="row justify-content-sm-center">
     <h1>Create new Request</h1>
@@ -19,7 +24,7 @@
                 <span asp-validation-for="Message" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-primary" @string.IsNullOrEmpty(currentUser.ManagerId) ? disabled="true"  />
             </div>
         </form>
     </div>

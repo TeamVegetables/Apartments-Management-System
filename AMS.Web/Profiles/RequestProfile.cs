@@ -23,6 +23,7 @@ namespace AMS.Web.Profiles
                     $"{userManager.FindByIdAsync(r.ResolverId).Result.FirstName} " +
                     $" {userManager.FindByIdAsync(r.ResolverId).Result.LastName}"));
 
+
             CreateMap<CreateRequestViewModel, Request>();
         }
     }

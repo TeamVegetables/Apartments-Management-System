@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AMS.Core.Models;
 using AMS.Services.Interfaces;
@@ -22,14 +24,11 @@ namespace AMS.Web.Controllers
             _userManager = userManager;
             _mapper = mapper;
         }
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var requests = await _requestService.GetAllRequestsAsync();
-            
-            var requestsViewModel = _mapper.Map <ICollection<Request>, IEnumerable<RequestViewModel>>(requests);
-
-            return View("RequestList" , requestsViewModel);
+            return View();
         }
+
 
         public IActionResult CreateRequest()
         {
@@ -55,6 +54,26 @@ namespace AMS.Web.Controllers
             }
 
             return View(createRequestModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateRequestStatus(UpdateRequestStatusViewModel updateStatusModel)
+        {
+            var requestEntity = await _requestService.GetRequestAsync(updateStatusModel.Id);
+
+            if (requestEntity == null)
+            {
+                return View("Index");
+            }
+
+            requestEntity.Completed = updateStatusModel.Status == RequestStatus.Resolved
+                ? (DateTime?) DateTime.Now
+                : null;
+            requestEntity.Status = updateStatusModel.Status;
+
+            await _requestService.UpdateRequestAsync(requestEntity);
+
+            return View("Index");
         }
     }
 }

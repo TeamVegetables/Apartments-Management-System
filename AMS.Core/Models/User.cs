@@ -16,7 +16,6 @@ namespace AMS.Core.Models
         public int? ApartmentId { get; set; }
 
         public string ManagerId { get; set; }
-        public string ManagerId { get; set; }
 
         public bool IsLocked { get; set; }
     }

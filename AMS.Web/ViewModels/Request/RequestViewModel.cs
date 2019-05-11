@@ -9,7 +9,11 @@ namespace AMS.Web.ViewModels.Request
 
         public RequestStatus Status { get; set; }
 
+        public string InitiatorId { get; set; }
+
         public string InitiatorName { get; set; }
+
+        public string ResolverId { get; set; }
 
         public string ResolverName { get; set; }
 
