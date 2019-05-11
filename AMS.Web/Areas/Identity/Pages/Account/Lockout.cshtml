@@ -1,0 +1,19 @@
+﻿@page
+@model LockoutModel
+@{
+    ViewData["Title"] = "Locked out";
+}
+
+<header>
+    <div class="col">
+        <div class="row justify-content-center">
+            <img class="locked-img" src="/img/buildings/banned.png"/>
+        </div>
+        <div class="row justify-content-center">
+            <h1 class="text-danger">@ViewData["Title"]</h1>
+        </div>
+        <div class="row justify-content-center">
+            <p class="text-danger">This account has been deactivated. Contact your manager.</p>
+        </div>
+    </div>
+</header>

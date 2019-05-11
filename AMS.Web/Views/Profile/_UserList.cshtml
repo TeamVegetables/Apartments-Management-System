@@ -2,7 +2,11 @@
 @using AMS.Core.Models
 @using Microsoft.AspNetCore.Identity
 @inject UserManager<User> UserManager
-@model AMS.Web.ViewModels.Profile.ChangeRoleViewModel
+@model AMS.Web.ViewModels.Profile.ChangeUserViewModel
+@{
+    var managers = UserManager.Users.Select(u => u).Where(u => u.Apartment == null).ToList();
+    managers.RemoveAll(u => !UserManager.IsInRoleAsync(u, "Manager").Result);
+}
 
 <div class="row justify-content-center">
     <h2>System Users</h2>
@@ -22,16 +26,37 @@
                 <div class="col-1">
                     <span class="badge badge-pill badge-danger">@userRole</span>
                 </div>
-                <div class="col-3">
-                    Date of birth: <strong>@user.DateOfBirth.ToShortDateString()</strong>
-                </div>
                 <div class="col-4">
+                    <div class="row align-items-center">
+                        @if (UserManager.IsInRoleAsync(user, "Inhabitant").Result)
+                        {
+                            <div class="col-6">
+                                <div class="row">
+                                    Manager:&nbsp;
+                                    @if (!string.IsNullOrEmpty(user.ManagerId))
+                                    {
+                                        var manager = UserManager.Users.FirstOrDefault(u => u.Id == user.ManagerId);
+                                        @manager?.FirstName<span>&nbsp;</span>@manager?.LastName
+                                    }
+                                    else
+                                    {
+                                        <div>None</div>
+                                    }
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <button type="submit" class="btn btn-success" data-toggle="modal" data-target="#change" data-user-id="@user.Id">Change manager</button>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="col-3">
                     <form asp-controller="Profile" method="post">
                         <input asp-for="UserId" type="hidden" value="@user.Id" />
                         <input asp-for="OldRole" type="hidden" value="@userRole" />
                         <div class="row align-items-center">
                             <div class="col-6">
-                                <select asp-for="NewRole" class="form-control form-control-sm">
+                                <select asp-for="NewRole" class="form-control form-control-sm" value="@userRole">
                                     @foreach (var role in Enum.GetNames(typeof(RoleNames)))
                                     {
                                         <option>@role</option>
@@ -45,14 +70,55 @@
                     </form>
                 </div>
                 <div class="col-2">
-                    <button type="button" class="btn btn-danger">Deactivate</button>
+                    <form asp-action="ChangeUserActivation">
+                        <input asp-for="UserId" type="hidden" value="@user.Id" />
+                        @if (user.IsLocked)
+                        {
+                            <button type="submit" class="btn btn-success">Activate</button>
+                        }
+                        else
+                        {
+                            <button type="submit" class="btn btn-danger">Deactivate</button>
+                        }
+                    </form>
                 </div>
             </div>
         </li>
     }
 </ul>
 <div class="row justify-content-center mt-3">
-    <form  asp-controller="Profile" asp-action="CreateUser" method="get">
+    <form asp-controller="Profile" asp-action="CreateUser" method="get">
         <button type="submit" class="btn btn-primary">Create</button>
     </form>
+</div>
+
+<div class="modal fade" id="change" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">Change manager</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form asp-action="ChangeManager">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input asp-for="UserId" name="UserId" type="hidden" value="" />
+                        <label class="control-label">Choose the manager</label>
+                        <select asp-for="ManagerId" class="form-control form-control">
+                            @foreach (var manager in managers)
+                            {
+                                <option value="@manager.Id">@manager.FirstName @manager.LastName</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Change</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
