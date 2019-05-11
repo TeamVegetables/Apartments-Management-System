@@ -37,7 +37,7 @@ namespace AMS.Services.Services
             var notification = _uow.Notifications.Get(notificationId);
             notification.Dismissed = true;
             await _uow.Notifications.UpdateAsync(notification);
-            await _uow.SaveAsync();
+            _uow.Save();
         }
     }
 }

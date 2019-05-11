@@ -29,7 +29,7 @@
                         @inhabitant.LastName
                     </div>
                     <div class="col-3">
-                        Date of birth: <strong>@inhabitant.DateOfBirth.ToShortDateString()</strong>
+                        Rent end date: <strong>@inhabitant.RentEndDate.Value.ToShortDateString()</strong>
                     </div>
                     <div class="col-3">
                         <form asp-action="RemoveInhabitant">
@@ -64,12 +64,14 @@
                     <div class="form-group">
                         <input asp-for="ApartmentId" type="hidden" value="@Model.ApartmentId" />
                         <label asp-for="InhabitantId" class="control-label">Choose the inhabitant</label>
-                        <select asp-for="InhabitantId" class="form-control form-control">
+                        <select asp-for="InhabitantId" class="form-control form-control" required>
                             @foreach (var user in users)
                             {
                                 <option value="@user.Id">@user.FirstName @user.LastName</option>
                             }
                         </select>
+                        <label asp-for="RentEndDate" class="control-label">Rent end date</label>
+                        <input asp-for="RentEndDate" class="form-control" type="date" required/>
                     </div>
                 </div>
                 <div class="modal-footer">

@@ -20,6 +20,8 @@ namespace AMS.Core.Models
 
         public bool IsLocked { get; set; }
 
+        public DateTime? RentEndDate { get; set; }
+
         public List<Notification> Notifications { get; set; }
     }
 }

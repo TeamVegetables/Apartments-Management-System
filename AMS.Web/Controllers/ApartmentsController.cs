@@ -75,6 +75,7 @@ namespace AMS.Web.Controllers
                 return BadRequest();
             }
 
+            user.RentEndDate = viewModel.RentEndDate;
             user.Apartment = apartment;
             user.ApartmentId = apartment.Id;
             await userManager.UpdateAsync(user);
@@ -96,7 +97,6 @@ namespace AMS.Web.Controllers
             user.Apartment = null;
             user.ApartmentId = null;
             await userManager.UpdateAsync(user);
-            await apartmentService.UpdateApartmentAsync(apartment);
             await apartmentService.UpdateApartmentAsync(apartment);
             return RedirectToAction("ManageInhabitants", new {apartmentId = viewModel.ApartmentId});
         }
