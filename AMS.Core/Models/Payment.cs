@@ -18,6 +18,6 @@ namespace AMS.Core.Models
 
         public DateTime DeadLine { get; set; }
 
-        public DateTime Completed { get; set; }
+        public DateTime? Completed { get; set; }
     }
 }

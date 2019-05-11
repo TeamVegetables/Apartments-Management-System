@@ -24,7 +24,8 @@
             
             <div class="form-group">
                 <label asp-for="DeadLine" class="control-label"></label>
-                <input asp-for="DeadLine" type="date" class="form-control" />
+                <input asp-for="DeadLine" type="date" class="form-control" 
+                       value="@DateTime.Now.ToString("yyyy-MM-dd")"/>
                 <span asp-validation-for="DeadLine" class="text-danger"></span>
             </div>
 
@@ -35,7 +36,9 @@
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Go to List list paymets</a>
+<div class="row justify-content-center">
+    <div class="col text-center">
+        <a asp-action="Index" asp-controller="Apartments">Go to List list apartments</a>
+    </div>
 </div>
 

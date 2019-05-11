@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AMS.Core.Interfaces;
 using AMS.Core.Models;
@@ -44,6 +45,24 @@ namespace AMS.Services.Services
             await _uow.Payments.RemoveAsync(payment);
             await _uow.SaveAsync();
         }
-    
+
+        public async Task ChangeStatus(Payment payment)
+        {
+            if (payment.Completed.HasValue)
+            {
+                payment.Status = payment.DeadLine >= payment.Completed.Value ? 
+                    PaymentStatus.Paid : PaymentStatus.PaidLate;
+            }
+            else
+            {
+                if (payment.DeadLine <= DateTime.Now)
+                {
+                    payment.Status = PaymentStatus.Overdue;
+                }
+            }
+
+            await _uow.Payments.UpdateAsync(payment);
+            await _uow.SaveAsync();
+        }
     }
 }
