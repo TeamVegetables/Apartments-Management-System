@@ -9,7 +9,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     var users = UserManager.Users.Select(u => u).Where(u => u.Apartment == null).ToList();
     users.RemoveAll(u => !UserManager.IsInRoleAsync(u, "Inhabitant").Result);
-    var inhabitants = ApartmentService.GetApartmentWithUsers(Model.ApartmentId).Inhabitants;
+    var apartment = ApartmentService.GetApartmentWithUsers(Model.ApartmentId);
+    var inhabitants = apartment.Inhabitants;
 }
 
 <div class="row justify-content-center">
@@ -44,11 +45,14 @@
     </ul>
 }
 
-<div class="row justify-content-center mt-2">
-    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal">
-        Add inhabitant
-    </button>
-</div>
+@if (apartment.Busy < apartment.Capacity)
+{
+    <div class="row justify-content-center mt-2">
+        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal">
+            Add inhabitant
+        </button>
+    </div>
+}
 
 <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -71,7 +75,7 @@
                             }
                         </select>
                         <label asp-for="RentEndDate" class="control-label">Rent end date</label>
-                        <input asp-for="RentEndDate" class="form-control" type="date" required/>
+                        <input asp-for="RentEndDate" class="form-control" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" required/>
                     </div>
                 </div>
                 <div class="modal-footer">

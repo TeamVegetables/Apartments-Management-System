@@ -322,14 +322,6 @@ namespace AMS.Core.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("AMS.Core.Models.Payment", b =>
-                {
-                    b.HasOne("AMS.Core.Models.Apartment", "Apartment")
-                        .WithMany()
-                        .HasForeignKey("ApartmentId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("AMS.Core.Models.User", b =>
                 {
                     b.HasOne("AMS.Core.Models.Apartment", "Apartment")

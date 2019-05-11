@@ -48,7 +48,7 @@ namespace AMS.Web.Controllers
                     Status = PaymentStatus.Waiting
                 };
                 var apartment = apartmentService.GetApartmentWithUsers(payment.ApartmentId);
-                var notificationMessage = $"You have new payment. Sum: {payment.Sum}";
+                var notificationMessage = $"You have new payment. Sum: {payment.Sum}$.";
                 foreach (var apartmentInhabitant in apartment.Inhabitants)
                 {
                     await notificationService.Create(notificationMessage, apartmentInhabitant.Id);
@@ -79,6 +79,16 @@ namespace AMS.Web.Controllers
             var payment = await paymentService.GetPaymentAsync(changePaymentViewModel.PaymentId);
             payment.DeadLine = changePaymentViewModel.DeadLine;
             payment.Status = changePaymentViewModel.NewStatus;
+            if (changePaymentViewModel.NewStatus == PaymentStatus.Paid)
+            {
+                var apartment = apartmentService.GetApartmentWithUsers(changePaymentViewModel.ApartmentId);
+                var notificationMessage = "Your manager confirmed the rental payment.";
+                foreach (var user in apartment.Inhabitants)
+                {
+                    await notificationService.Create(notificationMessage, user.Id);
+                }
+            }
+
             await paymentService.UpdatePaymentAsync(payment);
 
             return View(changePaymentViewModel);
