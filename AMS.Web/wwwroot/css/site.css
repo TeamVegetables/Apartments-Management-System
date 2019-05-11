@@ -63,3 +63,8 @@ body {
 .carousel-image {
     width: 100%;
 }
+
+.locked-img {
+    width: 400px;
+    height: 400px;
+}

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using AMS.Core.Models;
 using AMS.Web.ViewModels.Profile;
@@ -22,14 +23,33 @@ namespace AMS.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index(ChangeRoleViewModel changeRoleViewModel)
+        public async Task<IActionResult> Index(ChangeUserViewModel changeUserViewModel)
         {
-            var user = userManager.Users.ToList().Select(u => u).FirstOrDefault(u => u.Id == changeRoleViewModel.UserId);
+            var user = userManager.Users.ToList().Select(u => u).FirstOrDefault(u => u.Id == changeUserViewModel.UserId);
             if (user == null) return View();
-            await userManager.RemoveFromRoleAsync(user, changeRoleViewModel.OldRole);
-            await userManager.AddToRoleAsync(user, changeRoleViewModel.NewRole);
-
+            await userManager.RemoveFromRoleAsync(user, changeUserViewModel.OldRole);
+            await userManager.AddToRoleAsync(user, changeUserViewModel.NewRole);
             return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangeManager(ChangeUserViewModel changeUserViewModel)
+        {
+            var user = userManager.Users.ToList().Select(u => u).FirstOrDefault(u => u.Id == changeUserViewModel.UserId);
+            if (user == null) return RedirectToAction("Index");
+            user.ManagerId = changeUserViewModel.ManagerId;
+            await userManager.UpdateAsync(user);
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangeUserActivation(ChangeUserViewModel changeUserViewModel)
+        {
+            var user = userManager.Users.ToList().Select(u => u).FirstOrDefault(u => u.Id == changeUserViewModel.UserId);
+            if (user == null) return RedirectToAction("Index");
+            user.IsLocked = !user.IsLocked;
+            await userManager.UpdateAsync(user);
+            return RedirectToAction("Index");
         }
 
         public IActionResult CreateUser()

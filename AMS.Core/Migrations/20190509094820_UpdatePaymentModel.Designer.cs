@@ -4,18 +4,20 @@ using AMS.Core.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AMS.Core.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190509094820_UpdatePaymentModel")]
+    partial class UpdatePaymentModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
+                .HasAnnotation("ProductVersion", "2.2.0-rtm-35687")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -48,11 +50,9 @@ namespace AMS.Core.Migrations
 
                     b.Property<DateTime>("Completed");
 
-                    b.Property<DateTime>("DeadLine");
-
                     b.Property<DateTime>("Initiated");
 
-                    b.Property<int>("Status");
+                    b.Property<int>("PaymentStatusId");
 
                     b.Property<decimal>("Sum");
 
@@ -86,17 +86,17 @@ namespace AMS.Core.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime?>("Completed");
+                    b.Property<DateTime>("Completed");
 
                     b.Property<DateTime>("Initiated");
 
-                    b.Property<string>("InitiatorId");
+                    b.Property<int>("InitiatorId");
 
                     b.Property<string>("Message");
 
-                    b.Property<string>("ResolverId");
+                    b.Property<int>("RequestStatusId");
 
-                    b.Property<int>("Status");
+                    b.Property<int>("ResolverId");
 
                     b.HasKey("Id");
 
@@ -124,15 +124,13 @@ namespace AMS.Core.Migrations
 
                     b.Property<string>("FirstName");
 
-                    b.Property<bool>("IsLocked");
-
                     b.Property<string>("LastName");
 
                     b.Property<bool>("LockoutEnabled");
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
 
-                    b.Property<string>("ManagerId");
+                    b.Property<int?>("ManagerId");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256);

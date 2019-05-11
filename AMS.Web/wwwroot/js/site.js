@@ -2,3 +2,8 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
+$('#change').on('show.bs.modal',
+    function (e) {
+        var userId = $(e.relatedTarget).data('user-id');
+        $(e.currentTarget).find('input[name="UserId"]').val(userId);
+    });
