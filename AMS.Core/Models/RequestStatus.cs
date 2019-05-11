@@ -1,9 +1,9 @@
 ﻿namespace AMS.Core.Models
 {
-    public class RequestStatus
+    public enum RequestStatus
     {
-        public int Id { get; set; }
-
-        public string Title { get; set; }
+        Initiated=0,
+        InProgress=1,
+        Resolved=2
     }
 }

@@ -4,14 +4,16 @@ using AMS.Core.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AMS.Core.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190511113427_FixGuid")]
+    partial class FixGuid
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,27 +40,6 @@ namespace AMS.Core.Migrations
                     b.ToTable("Apartments");
                 });
 
-            modelBuilder.Entity("AMS.Core.Models.Notification", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("Date");
-
-                    b.Property<bool>("Dismissed");
-
-                    b.Property<string>("Message");
-
-                    b.Property<string>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Notifications");
-                });
-
             modelBuilder.Entity("AMS.Core.Models.Payment", b =>
                 {
                     b.Property<int>("Id")
@@ -67,19 +48,17 @@ namespace AMS.Core.Migrations
 
                     b.Property<int>("ApartmentId");
 
-                    b.Property<DateTime?>("Completed");
-
-                    b.Property<DateTime>("DeadLine");
+                    b.Property<DateTime>("Completed");
 
                     b.Property<DateTime>("Initiated");
 
-                    b.Property<int>("Status");
+                    b.Property<int>("PaymentStatusId");
 
                     b.Property<decimal>("Sum");
 
-                    b.HasKey("Id");
+                    b.Property<int>("UserId");
 
-                    b.HasIndex("ApartmentId");
+                    b.HasKey("Id");
 
                     b.ToTable("Payments");
                 });
@@ -109,7 +88,7 @@ namespace AMS.Core.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime?>("Completed");
+                    b.Property<DateTime>("Completed");
 
                     b.Property<DateTime>("Initiated");
 
@@ -147,15 +126,13 @@ namespace AMS.Core.Migrations
 
                     b.Property<string>("FirstName");
 
-                    b.Property<bool>("IsLocked");
-
                     b.Property<string>("LastName");
 
                     b.Property<bool>("LockoutEnabled");
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
 
-                    b.Property<string>("ManagerId");
+                    b.Property<int?>("ManagerId");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256);
@@ -168,8 +145,6 @@ namespace AMS.Core.Migrations
                     b.Property<string>("PhoneNumber");
 
                     b.Property<bool>("PhoneNumberConfirmed");
-
-                    b.Property<DateTime?>("RentEndDate");
 
                     b.Property<string>("SecurityStamp");
 
@@ -305,21 +280,6 @@ namespace AMS.Core.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("AMS.Core.Models.Notification", b =>
-                {
-                    b.HasOne("AMS.Core.Models.User")
-                        .WithMany("Notifications")
-                        .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("AMS.Core.Models.Payment", b =>
-                {
-                    b.HasOne("AMS.Core.Models.Apartment", "Apartment")
-                        .WithMany()
-                        .HasForeignKey("ApartmentId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("AMS.Core.Models.User", b =>

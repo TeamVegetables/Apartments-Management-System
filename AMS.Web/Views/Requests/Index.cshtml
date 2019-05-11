@@ -1,0 +1,129 @@
+﻿@using AMS.Core.Models
+@using AMS.Services.Interfaces
+@using AMS.Web.ViewModels.Request
+@using AutoMapper
+@using Microsoft.AspNetCore.Identity
+@model AMS.Web.ViewModels.Request.UpdateRequestStatusViewModel;
+@inject IRequestService RequestService;
+@inject UserManager<User> UserManager;
+@{
+    var requestEntities = new List<Request>();
+
+    var currentUser = UserManager.GetUserAsync(User).Result;
+
+    if (UserManager.IsInRoleAsync(currentUser, "Inhabitant").Result)
+    {
+        requestEntities = RequestService.GetRequestsByInhabitantId(currentUser.Id).Result.ToList();
+    }
+    else if(UserManager.IsInRoleAsync(currentUser, "Manager").Result)
+    {
+        requestEntities = RequestService.GetRequestsByResolverId(currentUser.Id).Result.ToList();
+    }
+
+    var RequestViews = Mapper.Map<ICollection<Request>, IEnumerable<RequestViewModel>>(requestEntities);
+}]
+<div class="row justify-content-center">
+    <h2>Requests</h2>
+</div>
+@if (RequestViews.Any())
+{
+    <ul class="list-group">
+        <div class="row text-center align-items-center">
+            <div class="col-2">
+                <strong>InitiatorName</strong>
+            </div>
+            <div class="col-2">
+                <strong>ResolverName</strong>
+            </div>
+            <div class="col-1">
+                <strong>Initiated</strong>
+            </div>
+            <div class="col-1">
+                <strong>Completed</strong>
+            </div>
+            <div class="col-3">
+                <strong>Status</strong>
+            </div>
+            <div class="col-3">
+                <strong>Message</strong>
+            </div>
+        </div>
+        @foreach (var request in RequestViews)
+        {
+            <li class="list-group-item">
+                <div class="row align-items-center">
+                    <div class="col-2">
+                        @request.InitiatorName
+                    </div>
+                    <div class="col-2">
+                        @request.ResolverName
+                    </div>
+                    <div class="col-1">
+                        @request.Initiated.ToShortDateString()
+                    </div>
+                    <div class="col-1">
+                        @if (request.Completed != null)
+                        {
+                            @request.Completed.Value.ToShortDateString()
+                        }
+                        else
+                        {
+                            <strong>No date</strong>
+                        }
+                    </div>
+                    <div class="col-3">
+                        <div class="row justify-content-center align-items-center">
+                            @if (UserManager.IsInRoleAsync(currentUser, "Manager").Result)
+                            {
+                                <form asp-controller="Requests" asp-action="UpdateRequestStatus" method="post">
+                                    <input asp-for="UserId" type="hidden" value="@request.InitiatorId" />
+                                    <input asp-for="Id" type="hidden" value="@request.Id" />
+                                    <div class="row align-items-center">
+                                        <div class="col-7">
+                                            <select asp-for="Status" class="form-control form-control">
+                                                @foreach (var status in Enum.GetNames(typeof(RequestStatus)))
+                                                {
+                                                    if (status != request.Status.ToString())
+                                                    {
+                                                        <option value="@status">@status</option>
+                                                    }
+                                                }
+                                                <option value="@request.Status" selected="selected">
+                                                    @request.Status.ToString()
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="col-5">
+                                            <button type="submit" class="btn btn-success">Change status</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            }
+                            else if (UserManager.IsInRoleAsync(currentUser, "Inhabitant").Result)
+                            {
+                                <span class="badge badge-pill badge-success">@request.Status</span>
+                            }
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <span>@request.Message</span>
+                    </div>
+                </div>
+            </li>
+        }
+    </ul>
+    if (UserManager.IsInRoleAsync(currentUser, "Inhabitant").Result)
+    {
+        <div class="row justify-content-center mt-3">
+            <form asp-controller="Requests" asp-action="CreateRequest" method="get">
+                <button type="submit" class="btn btn-primary">Create</button>
+            </form>
+        </div>
+    }
+}
+else
+{
+    <div class="row justify-content-center">
+        <h3>Request list is currently empty . . .</h3>
+    </div>
+}

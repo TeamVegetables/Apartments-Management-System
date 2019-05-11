@@ -23,19 +23,35 @@ namespace AMS.Services.Services
             return await _uow.Requests.GetAllAsync();
         }
 
+        public async Task<ICollection<Request>> GetRequestsByInhabitantId(string inhabitantId)
+        {
+            return await _uow.Requests.GetRequestsByInhabitantId(inhabitantId);
+        }
+
+        public async Task<ICollection<Request>> GetRequestsByResolverId(string resolverId)
+        {
+            return await _uow.Requests.GetRequestsByResolverId(resolverId);
+        }
+
         public async Task AddRequestAsync(Request request)
         {
             await _uow.Requests.AddAsync(request);
+
+            await _uow.SaveAsync();
         }
 
         public async Task UpdateRequestAsync(Request request)
         {
             await _uow.Requests.UpdateAsync(request);
+
+            await _uow.SaveAsync();
         }
 
         public async Task RemoveRequestAsync(Request request)
         {
             await _uow.Requests.RemoveAsync(request);
+
+            await _uow.SaveAsync();
         }
     }
 }
