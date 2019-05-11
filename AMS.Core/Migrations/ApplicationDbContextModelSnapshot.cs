@@ -15,7 +15,7 @@ namespace AMS.Core.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.0-rtm-35687")
+                .HasAnnotation("ProductVersion", "2.2.3-servicing-35854")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -36,6 +36,27 @@ namespace AMS.Core.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Apartments");
+                });
+
+            modelBuilder.Entity("AMS.Core.Models.Notification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<bool>("Dismissed");
+
+                    b.Property<string>("Message");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Notifications");
                 });
 
             modelBuilder.Entity("AMS.Core.Models.Payment", b =>
@@ -147,6 +168,8 @@ namespace AMS.Core.Migrations
                     b.Property<string>("PhoneNumber");
 
                     b.Property<bool>("PhoneNumberConfirmed");
+
+                    b.Property<DateTime?>("RentEndDate");
 
                     b.Property<string>("SecurityStamp");
 
@@ -282,6 +305,13 @@ namespace AMS.Core.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("AMS.Core.Models.Notification", b =>
+                {
+                    b.HasOne("AMS.Core.Models.User")
+                        .WithMany("Notifications")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("AMS.Core.Models.Payment", b =>

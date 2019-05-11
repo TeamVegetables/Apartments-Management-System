@@ -14,7 +14,7 @@
     <h2>Payments</h2>
 </div>
 <ul class="list-group">
-    @foreach (var payment  in paymentsByApartmentId)
+    @foreach (var payment in paymentsByApartmentId)
     {
         <li class="list-group-item">
             <div class="row align-items-center">
@@ -28,14 +28,14 @@
                 <div class="col-2">
                     Initiated: <strong>@payment.Initiated.ToShortDateString()</strong>
                 </div>
-               
-                <div class="col-8">
+
+                <div class="col-6">
                     <form asp-controller="Payments" method="post">
 
-                        <input asp-for="PaymentId" type="hidden" value="@payment.Id"/>
+                        <input asp-for="PaymentId" type="hidden" value="@payment.Id" />
 
                         <div class="row">
-                            <div class="col">
+                            <div class="col-7">
                                 <div class="row justify-content-center">
                                     <div class="col text-center m-2">
                                         Deadline:
@@ -43,15 +43,17 @@
                                     <div class="col-6">
 
                                         <input asp-for="DeadLine" type="date" class="form-control"
-                                               value="@payment.DeadLine.ToString("yyyy-MM-dd")"/>
+                                               value="@payment.DeadLine.ToString("yyyy-MM-dd")" />
                                     </div>
                                 </div>
 
 
                             </div>
-                            <div class="col-2">
+                            <div class="col-3">
+                                <div class="row align-content-center">
+                                <input asp-for="ApartmentId" type="hidden" value="@payment.ApartmentId"/>
                                 <select asp-for="NewStatus" class="form-control form-control-sm">
-                                   
+
                                     @foreach (var status in Enum.GetNames(typeof(PaymentStatus)))
                                     {
                                         if (@status != @payment.Status.ToString())
@@ -63,14 +65,15 @@
                                         @payment.Status.ToString()
                                     </option>
                                 </select>
+                                </div>
                             </div>
-                            <div class="col-5">
+                            <div class="col-2">
                                 <button type="submit" class="btn btn-success">Change Payment</button>
                             </div>
                         </div>
                     </form>
-        </div>
                 </div>
+            </div>
         </li>
     }
 </ul>

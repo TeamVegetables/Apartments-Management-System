@@ -39,7 +39,6 @@ namespace AMS.Web.Controllers
             {
                 var apartment = new Apartment
                 {
-                    Busy = createApartmentViewModel.Busy,
                     Capacity = createApartmentViewModel.Capacity,
                     Status = createApartmentViewModel.Status,
                     Title = createApartmentViewModel.Title
@@ -64,17 +63,20 @@ namespace AMS.Web.Controllers
         {
             var apartment = await apartmentService.GetApartmentAsync(viewModel.ApartmentId);
             var user = userManager.Users.Select(u => u).FirstOrDefault(u => u.Id == viewModel.InhabitantId);
+            if (user == null)
+            {
+                return BadRequest();
+            }
+
             if (apartment.Inhabitants == null)
             {
                 apartment.Inhabitants = new List<User>();
             }
 
             apartment.Inhabitants.Add(user);
-            if (user == null)
-            {
-                return BadRequest();
-            }
-
+            apartment.Busy++;
+            apartment.Status = apartment.Busy >= apartment.Capacity ? ApartmentStatus.Busy : ApartmentStatus.Available;
+            user.RentEndDate = viewModel.RentEndDate;
             user.Apartment = apartment;
             user.ApartmentId = apartment.Id;
             await userManager.UpdateAsync(user);
@@ -93,10 +95,11 @@ namespace AMS.Web.Controllers
             }
 
             apartment.Inhabitants.Remove(user);
+            apartment.Busy--;
+            apartment.Status = apartment.Busy >= apartment.Capacity ? ApartmentStatus.Busy : ApartmentStatus.Available;
             user.Apartment = null;
             user.ApartmentId = null;
             await userManager.UpdateAsync(user);
-            await apartmentService.UpdateApartmentAsync(apartment);
             await apartmentService.UpdateApartmentAsync(apartment);
             return RedirectToAction("ManageInhabitants", new {apartmentId = viewModel.ApartmentId});
         }

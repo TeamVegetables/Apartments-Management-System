@@ -68,3 +68,13 @@ body {
     width: 400px;
     height: 400px;
 }
+
+.notification-img {
+    width: 35px;
+    height: 35px;
+}
+
+.no-notifications {
+    width: 100px;
+    height: 100px;
+}

@@ -1,0 +1,42 @@
+﻿@model IEnumerable<AMS.Core.Models.Notification>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row justify-content-center">
+    <h2>Notifications</h2>
+</div>
+@if (!Model.Any())
+{
+    <div class="col">
+        <div class="row justify-content-center">
+            <img class="no-notifications" src="/img/buildings/no-notification.svg"/>
+        </div>
+        <div class="row justify-content-center">
+            <h4>You do not have any notifications</h4>
+        </div>
+    </div>
+}
+else
+{
+    <ul class="list-group">
+        @foreach (var notification in Model)
+        {
+            <li class="list-group-item">
+                <div class="row align-items-center">
+                    <div class="col-9">
+                        <div class="row justify-content-center">
+                            <h4>@notification.Message</h4>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <form asp-action="Dismiss" method="post">
+                            <input name="notificationId" type="hidden" value="@notification.Id" />
+                            <button type="submit" class="btn btn-danger">Dismiss</button>
+                        </form>
+                    </div>
+                </div>
+            </li>
+        }
+    </ul>
+}

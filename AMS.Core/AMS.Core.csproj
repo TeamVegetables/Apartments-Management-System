@@ -7,6 +7,13 @@
   <ItemGroup>
     <Compile Remove="Migrations\20190424184746_Added-field.cs" />
     <Compile Remove="Migrations\20190424193158_ApartmentUserReference.cs" />
+    <Compile Remove="Migrations\20190509094820_UpdatePaymentModel.cs" />
+    <Compile Remove="Migrations\20190509095701_UpdatePaymentStatus.cs" />
+    <Compile Remove="Migrations\20190511112158_ModifiedUserModel.cs" />
+    <Compile Remove="Migrations\20190511120003_AddedFiledToUserModel.cs" />
+    <Compile Remove="Migrations\20190511133409_UpdatePaymentComplitedModel.cs" />
+    <Compile Remove="Migrations\20190511133602_AddedNotificationModel.cs" />
+    <Compile Remove="Migrations\20190511150349_AddedRendEndDateToUser.cs" />
   </ItemGroup>
 
   <ItemGroup>

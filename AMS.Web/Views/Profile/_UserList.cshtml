@@ -59,8 +59,14 @@
                                 <select asp-for="NewRole" class="form-control form-control-sm" value="@userRole">
                                     @foreach (var role in Enum.GetNames(typeof(RoleNames)))
                                     {
-                                        <option>@role</option>
+                                        if (role != userRole)
+                                        {
+                                            <option>@role</option>
+                                        }
                                     }
+                                            <option selected="selected">
+                                                @userRole
+                                            </option>
                                 </select>
                             </div>
                             <div class="col-6">

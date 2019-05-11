@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using AMS.Core.Models;
+using AMS.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
@@ -16,11 +17,14 @@ namespace AMS.Web.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class LoginModel : PageModel
     {
+        private readonly INotificationService notificationService;
         private readonly SignInManager<User> _signInManager;
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<User> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<User> signInManager, INotificationService notificationService,
+            ILogger<LoginModel> logger)
         {
+            this.notificationService = notificationService;
             _signInManager = signInManager;
             _logger = logger;
         }
@@ -82,6 +86,7 @@ namespace AMS.Web.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: true);
                 if (result.Succeeded)
                 {
+                    CheckRentDate(user);
                     _logger.LogInformation("User logged in.");
                     return LocalRedirect(returnUrl);
                 }
@@ -103,6 +108,23 @@ namespace AMS.Web.Areas.Identity.Pages.Account
 
             // If we got this far, something failed, redisplay form
             return Page();
+        }
+
+        private async void CheckRentDate(User user)
+        {
+            if (!user.RentEndDate.HasValue) return;
+            string notificationMessage;
+            if (user.RentEndDate.Value < DateTime.Now)
+            {
+                notificationMessage = "The term of your rental has expired.";
+                await notificationService.Create(notificationMessage, user.Id);
+                return;
+            }
+
+            if (user.RentEndDate.Value.Month - DateTime.Now.Month +
+                12 * (user.RentEndDate.Value.Year - DateTime.Now.Year) >= 2) return;
+            notificationMessage = "Your rent will end in 2 months.";
+            await notificationService.Create(notificationMessage, user.Id);
         }
     }
 }

@@ -41,7 +41,7 @@ namespace AMS.Services.Services
         public async Task UpdateApartmentAsync(Apartment apartment)
         {
             await _uow.Apartments.UpdateAsync(apartment);
-            await _uow.SaveAsync();
+            _uow.Save();
         }
 
         public async Task RemoveApartmentAsync(Apartment apartment)
