@@ -14,5 +14,6 @@ namespace AMS.Core.Models
         public DbSet<Request> Requests { get; set; }
         public DbSet<Payment> Payments { get; set; }
         public DbSet<RentInfo> RentInfos { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
     }
 }

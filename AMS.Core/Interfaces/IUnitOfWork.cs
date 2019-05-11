@@ -9,6 +9,7 @@ namespace AMS.Core.Interfaces
         IPaymentRepository Payments { get; }
         IRentInfoRepository RentInfos { get; }
         IRequestRepository Requests { get; }
+        INotificationRepository Notifications { get; }
         int Save();
         Task<int> SaveAsync();
     }

@@ -1,12 +1,16 @@
-﻿@using AMS.Core.Models
+﻿@using AMS.Core.Interfaces
+@using AMS.Core.Models
 @using Microsoft.AspNetCore.Identity
+@inject INotificationRepository NotificationService
 @inject UserManager<User> UserManager
 @{
     var user = UserManager.GetUserAsync(User).Result;
+    var notifications = new List<Notification>();
     string userRole = string.Empty;
     if (user != null)
     {
         userRole = UserManager.GetRolesAsync(user).Result.FirstOrDefault();
+        notifications = NotificationService.GetByUserId(user.Id).ToList();
     }
 }
 <!DOCTYPE html>
@@ -42,6 +46,13 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <partial name="_LoginPartial"/>
                     <ul class="navbar-nav flex-grow-1">
+                        @if (userRole == "Inhabitant")
+                        {
+                        <a asp-action="Index" asp-controller="Notifications">
+                            <img class="notification-img" src="/img/buildings/notification.png" />
+                            <span class="badge badge-success">@notifications.Count</span>
+                        </a>
+                        }
                         @if (userRole == "Manager")
                         {
                             <a class="nav-link text-light" asp-area="" asp-controller="Apartments" asp-action="Index">Appartaments</a>
