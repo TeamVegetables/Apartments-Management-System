@@ -51,16 +51,17 @@
                             </div>
                             <div class="col-2">
                                 <select asp-for="NewStatus" class="form-control form-control-sm">
-                                    <option selected>
-                                            @payment.Status.ToString()
-                                    </option>
+                                   
                                     @foreach (var status in Enum.GetNames(typeof(PaymentStatus)))
                                     {
                                         if (@status != @payment.Status.ToString())
                                         {
-                                            <option>@status</option>
+                                            <option value="@status">@status</option>
                                         }
                                     }
+                                    <option value="@payment.Status" selected="selected">
+                                        @payment.Status.ToString()
+                                    </option>
                                 </select>
                             </div>
                             <div class="col-5">

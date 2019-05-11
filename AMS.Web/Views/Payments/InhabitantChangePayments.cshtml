@@ -1,0 +1,80 @@
+﻿@using AMS.Core.Models
+@using AMS.Services.Interfaces
+
+@model IEnumerable<Payment>
+
+@{
+    ViewData["Title"] = "Payments";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row justify-content-center">
+    <h2>Payments</h2>
+</div>
+<ul class="list-group">
+    @foreach (var payment in Model)
+    {
+        <li class="list-group-item">
+            <div class="row align-items-center">
+
+                <div class="col-2">
+                    Price: @payment.Sum
+                </div>
+
+                <div class="col-2">
+                    Initiated: <strong>@payment.Initiated.ToShortDateString()</strong>
+                </div>
+
+                <div class="col-8">
+                    <form asp-controller="Payments" asp-action="InhabitantChangePayments"
+                          asp-route-paymentId="@payment.Id" method="post">
+                        <div class="row">
+                            <div class="col-7">
+                                <div class="row align-content-center">
+                                    <div class="col-6">
+                                        Deadline: <strong>@payment.DeadLine.ToShortDateString()</strong>
+                                    </div>
+                                    <div class="col-6">
+                                        @if (@payment.Completed.HasValue)
+                                        {
+                                            <div> Completed: <strong>@payment.Completed.Value.ToShortDateString()</strong></div>
+                                        }
+                                        else
+                                        {
+                                            <div>Completed: none </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                Status:<strong>@payment.Status</strong>
+                            </div>
+                            @if (@payment.Status == PaymentStatus.NotConfirmPaid)
+                            {
+                            <div class="col-2">
+                                <button type="submit" disabled="disabled" class="btn btn-dark">Not Confirm</button>
+                            </div>
+                            }
+                            else if (@payment.Status != PaymentStatus.Paid && @payment.Status != PaymentStatus.PaidLate)
+                            {
+                                <div class="col-2">
+                                    <button type="submit" class="btn btn-warning">Pay</button>
+                                </div>
+                            }
+                            
+                            else
+                            {
+                                <div class="col-2">
+                                    <button type="submit" disabled="disabled" class="btn btn-success">Paid</button>
+                                </div>
+                            }
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </li>
+    }
+</ul>
+
