@@ -4,14 +4,16 @@ using AMS.Core.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AMS.Core.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190507223657_RenamedRequestStatus")]
+    partial class RenamedRequestStatus
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -86,15 +88,15 @@ namespace AMS.Core.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime?>("Completed");
+                    b.Property<DateTime>("Completed");
 
                     b.Property<DateTime>("Initiated");
 
-                    b.Property<string>("InitiatorId");
+                    b.Property<int>("InitiatorId");
 
                     b.Property<string>("Message");
 
-                    b.Property<string>("ResolverId");
+                    b.Property<int>("ResolverId");
 
                     b.Property<int>("Status");
 
@@ -130,7 +132,7 @@ namespace AMS.Core.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
 
-                    b.Property<string>("ManagerId");
+                    b.Property<int?>("ManagerId");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256);

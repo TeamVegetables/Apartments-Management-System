@@ -1,0 +1,69 @@
+﻿@using AMS.Core.Models
+@model IEnumerable<AMS.Web.ViewModels.Request.RequestViewModel>
+
+
+<div class="row justify-content-center">
+    <h2>Requests</h2>
+</div>
+<ul class="list-group">
+    <div class="row align-items-center">
+        <div class="col-2">
+            <strong>InitiatorName</strong>
+        </div>
+        <div class="col-2">
+            <strong>ResolverName</strong>
+        </div>
+        <div class="col-1">
+            <strong>Initiated</strong>
+        </div>
+        <div class="col-1">
+            <strong>Completed</strong>
+        </div>
+        <div class="col-2">
+            <strong>Status</strong>
+        </div>
+        <div class="col-4">
+            <strong>Message</strong>
+        </div>
+    </div>
+    @foreach (var request in Model)
+    {
+        <li class="list-group-item">
+            <div class="row align-items-center">
+                <div class="col-2">
+                    @request.InitiatorName
+                </div>
+                <div class="col-2">
+                    @request.ResolverName
+                </div>
+                <div class="col-1">
+                    @request.Initiated.ToShortDateString()
+                </div>
+                <div class="col-1">
+                        @if (request.Completed != null)
+                        {
+                            @request.Completed.Value.ToShortDateString()
+                        }
+                </div>
+                <div class="col-2">
+                    <div class="form-group">
+                        <select asp-for="@request.Status" class="form-control form-control">
+                            @foreach (var role in Enum.GetNames(typeof(RequestStatus)))
+                            {
+                                <option>@role</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <span>@request.Message</span>
+                </div>
+            </div>
+        </li>
+    }
+</ul>
+<div class="row justify-content-center mt-3">
+    <form asp-controller="Requests" asp-action="CreateRequest" method="get">
+        <button type="submit" class="btn btn-primary">Create</button>
+    </form>
+</div>

@@ -5,6 +5,8 @@ using AMS.Core.Models;
 using AMS.Core.Repositories;
 using AMS.Services.Interfaces;
 using AMS.Services.Services;
+using AMS.Web.Profiles;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
@@ -57,6 +59,8 @@ namespace AMS.Web
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             AddApplicationServices(services);
+
+            AddAutoMapper(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -97,6 +101,18 @@ namespace AMS.Web
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IApartmentRepository, ApartmentRepository>();
             services.AddScoped<IApartmentService, ApartmentService>();
+            services.AddScoped<IRequestService, RequestService>();
+        }
+
+        private void AddAutoMapper(IServiceCollection services)
+        {
+            var serviceProvider = services.BuildServiceProvider();
+            AutoMapper.Mapper.Initialize(cfg =>
+            {
+                cfg.AddProfile(new RequestProfile(serviceProvider.GetService<UserManager<User>>()));
+            });
+
+            services.AddSingleton(Mapper.Instance);
         }
     }
 }

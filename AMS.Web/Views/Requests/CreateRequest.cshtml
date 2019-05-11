@@ -1,0 +1,26 @@
+﻿@using AMS.Core.Identity
+@model AMS.Web.ViewModels.Request.CreateRequestViewModel
+
+@{
+    ViewData["Title"] = "Create Request";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row justify-content-sm-center">
+    <h1>Create new Request</h1>
+</div>
+<hr />
+<div class="row justify-content-sm-center">
+    <div class="col-md-6">
+        <form asp-action="CreateRequest">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Message" class="control-label"></label>
+                <textarea asp-for="Message" rows="5" cols="80" class="form-control" placeholder="Input your message..."></textarea>
+                <span asp-validation-for="Message" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>

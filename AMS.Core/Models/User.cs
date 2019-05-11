@@ -15,6 +15,6 @@ namespace AMS.Core.Models
 
         public int? ApartmentId { get; set; }
 
-        public int? ManagerId { get; set; }
+        public string ManagerId { get; set; }
     }
 }
