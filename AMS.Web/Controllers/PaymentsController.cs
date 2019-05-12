@@ -56,7 +56,7 @@ namespace AMS.Web.Controllers
 
                 await paymentService.AddPaymentAsync(payment);
 
-                return RedirectToAction("Index");
+                return RedirectToAction("ChangePayments", new { apartmentId = createApartmentViewModel.ApartmentId });
             }
 
             return View(createApartmentViewModel);
