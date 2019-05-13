@@ -120,7 +120,7 @@ namespace AMS.Web.Controllers
         public async Task<IActionResult> GetApartmentByInhabitantId()
         {
             var user = await userManager.GetUserAsync(User);
-            Apartment apartment = new Apartment();
+            Apartment apartment = null;
             if (user.ApartmentId.HasValue)
             {
                  apartment = await apartmentService.GetApartmentAsync(user.ApartmentId.Value);

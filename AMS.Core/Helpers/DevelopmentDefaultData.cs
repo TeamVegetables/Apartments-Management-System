@@ -95,8 +95,7 @@ namespace AMS.Core.Helpers
                 UserName = settings.DefaultAdminUserEmail,
                 Email = settings.DefaultAdminUserEmail,
                 FirstName = "Odmen",
-                LastName = "Obmenovich",
-                DateOfBirth = DateTime.Now
+                LastName = "Obmenovich"
             };
 
             var result = await userManager.CreateAsync(user, settings.DefaultAdminUserPassword);

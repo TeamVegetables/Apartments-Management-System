@@ -10,8 +10,6 @@ namespace AMS.Core.Models
 
         public string LastName { get; set; }
 
-        public DateTime DateOfBirth { get; set; }
-
         public Apartment Apartment { get; set; }
 
         public int? ApartmentId { get; set; }

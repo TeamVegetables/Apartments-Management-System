@@ -76,7 +76,6 @@ namespace AMS.Web.Controllers
                     Email = createUserViewModel.Email,
                     FirstName = createUserViewModel.FirstName,
                     LastName = createUserViewModel.LastName,
-                    DateOfBirth = createUserViewModel.DateOfBirth
                 };
 
                 var result = await userManager.CreateAsync(user, createUserViewModel.Password);
