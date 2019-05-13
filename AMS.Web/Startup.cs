@@ -96,16 +96,16 @@ namespace AMS.Web
 
         private void AddApplicationServices(IServiceCollection services)
         {
-            services.AddScoped<DevelopmentDefaultData>();
-            services.AddScoped<BaseService>();
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<IApartmentRepository, ApartmentRepository>();
-            services.AddScoped<IPaymentRepository, PaymentRepository>();
-            services.AddScoped<INotificationRepository, NotificationRepository>();
-            services.AddScoped<IApartmentService, ApartmentService>();
-            services.AddScoped<IRequestService, RequestService>();
-            services.AddScoped<IPaymentService, PaymentService>();
-            services.AddScoped<INotificationService, NotificationService>();
+            services.AddTransient<DevelopmentDefaultData>();
+            services.AddTransient<BaseService>();
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<IApartmentRepository, ApartmentRepository>();
+            services.AddTransient<IPaymentRepository, PaymentRepository>();
+            services.AddTransient<INotificationRepository, NotificationRepository>();
+            services.AddTransient<IApartmentService, ApartmentService>();
+            services.AddTransient<IRequestService, RequestService>();
+            services.AddTransient<IPaymentService, PaymentService>();
+            services.AddTransient<INotificationService, NotificationService>();
         }
 
         private void AddAutoMapper(IServiceCollection services)
