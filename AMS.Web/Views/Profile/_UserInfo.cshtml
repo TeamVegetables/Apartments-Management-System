@@ -3,22 +3,69 @@
 @inject UserManager<User> UserManager
 @{
     var user = UserManager.GetUserAsync(User).Result;
+    User manager = null;
+    if (!string.IsNullOrEmpty(user.ManagerId))
+    {
+         manager = UserManager.Users.FirstOrDefault(u => u.Id == user.ManagerId);
+    }
 }
 
 <div class="container">
-    <div class="col">
-        <div class="row justify-content-center">
-            <h2>Profile Info</h2>
-        </div>
-        <div class="row justify-content-center">
-            <h4>First name: @user.FirstName</h4>
-        </div>
-        <div class="row justify-content-center">
-            <h4>Last name: @user.LastName</h4>
-        </div>
-        <div class="row justify-content-center align-items-center">
-            <h4>Role: </h4><span class="badge badge-pill badge-danger">@UserManager.GetRolesAsync(user).Result.FirstOrDefault()</span>
-        </div>
+    <div class="row justify-content-center">
+        <div class="col-md-6 card my-2">
+            <div class="row justify-content-center card-header">
+                <div class="col text-center">
+                    <h3>Profile Info</h3>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col col-md-6">
+                    <h3>First name:</h3>
+                </div>
+                <div class="col col-md-6 text-center">
+                    <h3>@user.FirstName</h3>
+                </div>
+            </div>
+            <hr />
+            <div class="row justify-content-center">
+                <div class="col col-md-6">
+                    <h3>Last name:</h3>
+                </div>
+                <div class="col col-md-6 text-center">
+                    <h3>@user.LastName</h3>
+                </div>
+            </div>
+            <hr />
+            <div class="row justify-content-center">
+                <div class="col col-md-6">
+                    <h3>Role:</h3>
+                </div>
 
+                <div class="col col-md-6 text-center">
+                    <h3><span class="badge badge-pill badge-success">@UserManager.GetRolesAsync(user).Result.FirstOrDefault()</span></h3>
+                </div>
+
+            </div>
+            <hr />
+            @if (@UserManager.GetRolesAsync(user).Result.FirstOrDefault() == "Inhabitant")
+            {
+                <div class="row justify-content-center">
+                    <div class="col col-md-6">
+                        <h5>Your manager:</h5>
+                    </div>
+                    <div class="col col-md-6 text-center">
+                        @if (@manager != null)
+                        {
+                            <h5>@manager.FirstName @manager.LastName</h5>
+                        }
+                        else
+                        {
+                            <h5>None</h5>
+                        }
+                    </div>
+                </div>
+            }
+
+        </div>
     </div>
 </div>
