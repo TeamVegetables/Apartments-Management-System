@@ -102,6 +102,8 @@ namespace AMS.Web
             services.AddTransient<IApartmentRepository, ApartmentRepository>();
             services.AddTransient<IPaymentRepository, PaymentRepository>();
             services.AddTransient<INotificationRepository, NotificationRepository>();
+            services.AddTransient<IRequestRepository, RequestRepository>();
+            services.AddTransient<IRentInfoRepository, RentInfoRepository>();
             services.AddTransient<IApartmentService, ApartmentService>();
             services.AddTransient<IRequestService, RequestService>();
             services.AddTransient<IPaymentService, PaymentService>();
