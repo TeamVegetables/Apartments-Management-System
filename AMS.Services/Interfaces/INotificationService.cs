@@ -6,7 +6,7 @@ namespace AMS.Services.Interfaces
 {
     public interface INotificationService
     {
-        Task<Notification> Create(string message, string userId);
+        Task Create(string message, string userId);
 
         IEnumerable<Notification> GetByUserId(string userId);
 

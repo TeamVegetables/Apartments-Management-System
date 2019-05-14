@@ -6,12 +6,6 @@ namespace AMS.Core.Repositories
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly IPaymentRepository _paymentRepository;
-        private readonly IRentInfoRepository _rentInfoRepository;
-        private readonly IRequestRepository _requestRepository;
-        private readonly IApartmentRepository _apartmentRepository;
-        private readonly INotificationRepository _notificationRepository;
-
         private readonly ApplicationDbContext _context;
 
         public UnitOfWork(ApplicationDbContext context,
@@ -21,24 +15,24 @@ namespace AMS.Core.Repositories
             IApartmentRepository apartmentRepository,
             INotificationRepository notificationRepository)
         {
-            _paymentRepository = paymentRepository;
-            _rentInfoRepository = rentInfoRepository;
-            _requestRepository = requestRepository;
-            _apartmentRepository = apartmentRepository;
-            _notificationRepository = notificationRepository;
+            Payments = paymentRepository;
+            RentInfos = rentInfoRepository;
+            Requests = requestRepository;
+            Apartments = apartmentRepository;
+            Notifications = notificationRepository;
             _context = context;
         }
 
 
-        public IApartmentRepository Apartments => _apartmentRepository;
+        public virtual IApartmentRepository Apartments { get; }
 
-        public IPaymentRepository Payments => _paymentRepository;
+        public virtual IPaymentRepository Payments { get; }
 
-        public IRentInfoRepository RentInfos => _rentInfoRepository;
+        public virtual IRentInfoRepository RentInfos { get; }
 
-        public IRequestRepository Requests => _requestRepository;
+        public virtual IRequestRepository Requests { get; }
 
-        public INotificationRepository Notifications => _notificationRepository;
+        public virtual INotificationRepository Notifications { get; }
 
         public void Dispose()
         {

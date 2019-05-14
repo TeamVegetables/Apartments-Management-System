@@ -6,7 +6,7 @@ namespace AMS.Core.Interfaces
 {
     public interface INotificationRepository : IGenericRepository<Notification>
     {
-        Task<Notification> Create(Notification notification);
+        Task Create(Notification notification);
         Notification Get(int id);
         IEnumerable<Notification> GetAll();
         IEnumerable<Notification> GetByUserId(string userId);

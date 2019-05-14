@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AMS.Core.Repositories
 {
-    public class ApartmentRepository: BaseRepository<Apartment>, IApartmentRepository
+    public class ApartmentRepository : BaseRepository<Apartment>, IApartmentRepository
     {
         public ApartmentRepository(ApplicationDbContext context): base(context)
         {

@@ -12,10 +12,9 @@ namespace AMS.Core.Repositories
         {
         }
 
-        public async Task<Notification> Create(Notification notification)
+        public async Task Create(Notification notification)
         {
-            var result = await _context.Notifications.AddAsync(notification);
-            return result.Entity;
+            await _context.Notifications.AddAsync(notification);
         }
 
         public Notification Get(int id)
