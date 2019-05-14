@@ -13,7 +13,7 @@ namespace AMS.Services.Services
         {
         }
 
-        public async Task<Notification> Create(string message, string userId)
+        public async Task Create(string message, string userId)
         {
             var notification = new Notification
             {
@@ -22,9 +22,8 @@ namespace AMS.Services.Services
                 Message = message,
                 UserId = userId
             };
-            var result = await _uow.Notifications.Create(notification);
+            await _uow.Notifications.Create(notification);
             await _uow.SaveAsync();
-            return result;
         }
 
         public IEnumerable<Notification> GetByUserId(string userId)
