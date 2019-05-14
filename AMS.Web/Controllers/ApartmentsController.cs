@@ -52,6 +52,12 @@ namespace AMS.Web.Controllers
         }
 
         [HttpGet]
+        public IActionResult RecentlyFreeApartments()
+        {
+            return View();
+        }
+
+        [HttpGet]
         public IActionResult ManageInhabitants(int apartmentId)
         {
             var viewModel = new ManageInhabitantViewModel {ApartmentId = apartmentId};
