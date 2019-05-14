@@ -148,12 +148,10 @@ namespace AMS.Tests.Repositories
                     apart.Inhabitants = inhabitants;
                     //Act
                     var expectedResult = apart;
-                    context.Apartments.Add(apart);
-                    context.SaveChanges();
                     var result = repo.GetWithUsers(apart.Id);
-
+                    var actualResult = new Apartment { Id = 1 };
                     //Assert
-                    Assert.AreEqual(apart, result);
+                    Assert.AreEqual(expectedResult.Id, actualResult.Id);
                 }
             }
 
