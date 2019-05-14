@@ -18,10 +18,12 @@ namespace AMS.Tests.Repositories
         private Mock<DbSet<Notification>> dbSetMock;
         private Mock<ApplicationDbContext> dbContextMock;
         private List<Notification> data;
-
+        DbContextOptions<ApplicationDbContext> options;
         [SetUp]
         public void SetUp()
         {
+            options = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(databaseName: "InMemoryDatabase").Options;
             data = new List<Notification>
             {
                 new Notification
@@ -60,8 +62,161 @@ namespace AMS.Tests.Repositories
             dbContextMock = new Mock<ApplicationDbContext>(new DbContextOptions<ApplicationDbContext>());
             dbContextMock.Setup(a => a.Notifications).Returns(dbSetMock.Object);
         }
+        [Test]
+        public async Task AddAsyncTest()
+        {
+            //Arrange
+            using (var context = new ApplicationDbContext(options))
+            {
+                var notification = new Notification { Id = 1 };
+                var repo = new NotificationRepository(context);
+
+                //Act
+                await repo.AddAsync(notification);
+                var expectedResult = 1;
+                var actualResult = context.Notifications.Local.Count();
+
+                //Assert
+                Assert.AreEqual(expectedResult, actualResult);
+            }
+        }
 
         [Test]
+        public async Task AddRangeAsyncTest()
+        {
+            //Arrange
+            using (var context = new ApplicationDbContext(options))
+            {
+                var notifications = new List<Notification>
+                {
+                    new Notification { Id = 1, },
+                    new Notification { Id = 2 },
+                    new Notification { Id = 3 }
+                };
+                var repo = new NotificationRepository(context);
+
+                //Act
+                await repo.AddRangeAsync(notifications);
+                var expectedResult = 3;
+                var actualResult = context.Notifications.Local.Count();
+
+                //Assert
+                Assert.AreEqual(expectedResult, actualResult);
+            }
+        }
+
+        [Test]
+        public async Task RemoveAsyncTest()
+        {
+            //Arrange
+            using (var context = new ApplicationDbContext(options))
+            {
+                var notification = new Notification { Id = 1 };
+                var repo = new NotificationRepository(context);
+
+                //Act
+                var expectedResult = 0;
+                context.Notifications.Add(notification);
+                await repo.RemoveAsync(notification);
+                var actualResult = context.Notifications.Local.Count();
+
+                //Assert
+                Assert.AreEqual(expectedResult, actualResult);
+            }
+        }
+
+        [Test]
+        public async Task RemoveRangeAsyncTest()
+        {
+            //Arrange
+            using (var context = new ApplicationDbContext(options))
+            {
+                var notifications = new List<Notification>
+                {
+                    new Notification { Id = 1, },
+                    new Notification { Id = 2 },
+                    new Notification { Id = 3 }
+                };
+                var repo = new NotificationRepository(context);
+
+                //Act
+                var expectedResult = 0;
+                await context.Notifications.AddRangeAsync(notifications);
+                await repo.RemoveRangeAsync(notifications);
+                var actualResult = context.Notifications.Local.Count();
+
+                //Assert
+                Assert.AreEqual(expectedResult, actualResult);
+            }
+        }
+
+        [Test]
+        public async Task GetAsyncTest()
+        {
+            //Arrange
+            using (var context = new ApplicationDbContext(options))
+            {
+                var notification = new Notification { Id = 1 };
+                var repo = new NotificationRepository(context);
+
+                //Act
+                var expectedResult = notification;
+                context.Notifications.Add(notification);
+                var result = await repo.GetAsync(notification.Id);
+
+                //Assert
+                Assert.AreEqual(expectedResult, result);
+            }
+        }
+
+        [Test]
+        public async Task GetAllAsyncTest()
+        {
+            //Arrange
+            using (var context = new ApplicationDbContext(options))
+            {
+                var notifications = new List<Notification>
+                {
+                    new Notification { Id = 1, },
+                    new Notification { Id = 2 },
+                    new Notification { Id = 3 }
+                };
+                var repo = new NotificationRepository(context);
+
+                //Act
+                foreach (var notification in notifications)
+                {
+                    context.Notifications.Add(notification);
+                }
+                var actualResult = await repo.GetAllAsync();
+                var expectedResult = context.Notifications;
+
+                //Assert
+                Assert.AreEqual(expectedResult, actualResult);
+            }
+        }
+
+        [Test]
+        public async Task UpdateAsyncTest()
+        {
+            //Arrange
+            using (var context = new ApplicationDbContext(options))
+            {
+                var notification = new Notification { Id = 1 };
+                var repo = new NotificationRepository(context);
+
+                //Act
+                await repo.UpdateAsync(notification);
+                var expectedResult = EntityState.Modified;
+                var actualResult = context.Entry(notification).State;
+
+                //Assert
+                Assert.AreEqual(expectedResult, actualResult);
+            }
+        }
+    
+
+    [Test]
         public void GetAll_Calls_DbSet_Notifications()
         {
             //Arrange
