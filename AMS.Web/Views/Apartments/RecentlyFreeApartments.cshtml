@@ -1,0 +1,47 @@
+﻿@using AMS.Core.Models
+@using AMS.Services.Interfaces
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<User> UserManager
+@inject IApartmentService ApartmentService
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+    var users = UserManager.Users.Where(u => u.ApartmentId.HasValue 
+                                             && u.RentEndDate.HasValue
+                                             && u.RentEndDate.Value.Month - DateTime.Now.Month +
+                                             12 * (u.RentEndDate.Value.Year - DateTime.Now.Year) < 2).ToList();
+}
+
+<div class="row justify-content-center">
+    <h2>Will free in 2 months</h2>
+</div>
+@if (users.Any())
+{
+    <ul class="list-group">
+        @foreach (var user in users)
+        {
+            <li class="list-group-item">
+                <div class="row align-items-center">
+                    <div class="col-3">
+                        Title: <strong>@ApartmentService.GetApartmentAsync(user.ApartmentId.Value).Result.Title</strong>
+                    </div>
+                    <div class="col-3">
+                        Rent end date: <strong>@user.RentEndDate.Value.ToShortDateString()</strong>
+                    </div>
+                    <div class="col-3">
+                        First Name: <strong>@user.FirstName</strong>
+                    </div>
+                    <div class="col-3">
+                        Last Name: <strong>@user.LastName</strong>
+                    </div>
+                </div>
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <div class="row justify-content-center">
+        <h3>Nothing was found!</h3>
+    </div>
+}
