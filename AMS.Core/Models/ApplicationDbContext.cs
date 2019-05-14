@@ -10,7 +10,7 @@ namespace AMS.Core.Models
         {
         }
 
-        public DbSet<Apartment> Apartments { get; set; }
+        public virtual DbSet<Apartment> Apartments { get; set; }
         public DbSet<Request> Requests { get; set; }
         public DbSet<Payment> Payments { get; set; }
         public DbSet<RentInfo> RentInfos { get; set; }
