@@ -6,29 +6,39 @@ namespace AMS.Core.Repositories
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private  IPaymentRepository _paymentRepository;
-        private  IRentInfoRepository _rentInfoRepository;
-        private  IRequestRepository _requestRepository;
-        private  IApartmentRepository _apartmentRepository;
-        private INotificationRepository _notificationRepository;
+        private readonly IPaymentRepository _paymentRepository;
+        private readonly IRentInfoRepository _rentInfoRepository;
+        private readonly IRequestRepository _requestRepository;
+        private readonly IApartmentRepository _apartmentRepository;
+        private readonly INotificationRepository _notificationRepository;
 
         private readonly ApplicationDbContext _context;
 
-        public UnitOfWork(ApplicationDbContext context)
+        public UnitOfWork(ApplicationDbContext context,
+            IPaymentRepository paymentRepository,
+            IRentInfoRepository rentInfoRepository,
+            IRequestRepository requestRepository,
+            IApartmentRepository apartmentRepository,
+            INotificationRepository notificationRepository)
         {
+            _paymentRepository = paymentRepository;
+            _rentInfoRepository = rentInfoRepository;
+            _requestRepository = requestRepository;
+            _apartmentRepository = apartmentRepository;
+            _notificationRepository = notificationRepository;
             _context = context;
         }
-        
 
-        public IApartmentRepository Apartments => _apartmentRepository ?? (_apartmentRepository = new ApartmentRepository(_context));
 
-        public IPaymentRepository Payments => _paymentRepository ?? (_paymentRepository = new PaymentRepository(_context));
+        public IApartmentRepository Apartments => _apartmentRepository;
 
-        public IRentInfoRepository RentInfos => _rentInfoRepository ?? (_rentInfoRepository = new RentInfoRepository(_context));
+        public IPaymentRepository Payments => _paymentRepository;
 
-        public IRequestRepository Requests => _requestRepository ?? (_requestRepository = new RequestRepository(_context));
+        public IRentInfoRepository RentInfos => _rentInfoRepository;
 
-        public INotificationRepository Notifications => _notificationRepository ?? (_notificationRepository = new NotificationRepository(_context));
+        public IRequestRepository Requests => _requestRepository;
+
+        public INotificationRepository Notifications => _notificationRepository;
 
         public void Dispose()
         {
