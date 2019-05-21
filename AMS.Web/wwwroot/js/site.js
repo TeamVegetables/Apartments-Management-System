@@ -7,3 +7,11 @@ $('#change').on('show.bs.modal',
         var userId = $(e.relatedTarget).data('user-id');
         $(e.currentTarget).find('input[name="UserId"]').val(userId);
     });
+
+$('#change-role').on('show.bs.modal',
+    function (e) {
+        var userId = $(e.relatedTarget).data('user-id');
+        $(e.currentTarget).find('input[name="UserId"]').val(userId);
+        var oldRole = $(e.relatedTarget).data('user-role');
+        $(e.currentTarget).find('input[name="OldRole"]').val(oldRole);
+    });
