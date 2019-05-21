@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using AMS.Core.Models;
 using AMS.Web.ViewModels.Profile;
@@ -22,34 +21,39 @@ namespace AMS.Web.Controllers
             return View();
         }
 
+        public IActionResult Admin()
+        {
+            return View("_UserList");
+        }
+
         [HttpPost]
         public async Task<IActionResult> Index(ChangeUserViewModel changeUserViewModel)
         {
             var user = userManager.Users.ToList().Select(u => u).FirstOrDefault(u => u.Id == changeUserViewModel.UserId);
-            if (user == null) return View();
+            if (user == null) return RedirectToAction("Admin");
             await userManager.RemoveFromRoleAsync(user, changeUserViewModel.OldRole);
             await userManager.AddToRoleAsync(user, changeUserViewModel.NewRole);
-            return View();
+            return RedirectToAction("Admin");
         }
 
         [HttpPost]
         public async Task<IActionResult> ChangeManager(ChangeUserViewModel changeUserViewModel)
         {
             var user = userManager.Users.ToList().Select(u => u).FirstOrDefault(u => u.Id == changeUserViewModel.UserId);
-            if (user == null) return RedirectToAction("Index");
+            if (user == null) return RedirectToAction("Admin");
             user.ManagerId = changeUserViewModel.ManagerId;
             await userManager.UpdateAsync(user);
-            return RedirectToAction("Index");
+            return RedirectToAction("Admin");
         }
 
         [HttpPost]
         public async Task<IActionResult> ChangeUserActivation(ChangeUserViewModel changeUserViewModel)
         {
             var user = userManager.Users.ToList().Select(u => u).FirstOrDefault(u => u.Id == changeUserViewModel.UserId);
-            if (user == null) return RedirectToAction("Index");
+            if (user == null) return RedirectToAction("Admin");
             user.IsLocked = !user.IsLocked;
             await userManager.UpdateAsync(user);
-            return RedirectToAction("Index");
+            return RedirectToAction("Admin");
         }
 
         public IActionResult CreateUser()
@@ -93,7 +97,7 @@ namespace AMS.Web.Controllers
                     return View(createUserViewModel);
                 }
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Admin");
             }
 
             return View(createUserViewModel);

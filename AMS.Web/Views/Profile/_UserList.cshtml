@@ -4,6 +4,8 @@
 @inject UserManager<User> UserManager
 @model AMS.Web.ViewModels.Profile.ChangeUserViewModel
 @{
+    ViewData["Title"] = "Users";
+    Layout = "~/Views/Shared/_Layout.cshtml";
     var managers = UserManager.Users.Select(u => u).Where(u => u.Apartment == null).ToList();
     managers.RemoveAll(u => !UserManager.IsInRoleAsync(u, "Manager").Result);
 }
@@ -118,7 +120,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form asp-controller="Profile">
+            <form asp-controller="Profile" asp-action="Index" method="post">
                 <div class="modal-body">
                     <div class="form-group">
                         <input asp-for="UserId" name="UserId" type="hidden" value=""  />
