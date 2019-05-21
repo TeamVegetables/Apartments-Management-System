@@ -1,7 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using AMS.Core.Models;
 using AMS.Services.Interfaces;
 using AMS.Web.Controllers;
+using AMS.Web.ViewModels.Apartments;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -50,5 +53,46 @@ namespace AMS.Tests.AMS_Web_Tests
 
             Assert.IsNotNull(actual);
         }
+     
+        [Test]
+        public void RecentlyFreeApartments()
+        {
+            //Arrange
+            var controller = new ApartmentsController(apartmentMock.Object, userManagerMock.Object);
+
+            //Act
+            var actual =  controller.RecentlyFreeApartments() as ViewResult;
+            //Assert
+
+             Assert.IsNotNull(actual);
+        }
+
+        [Test]
+        public void ManageInhabitants()
+        {
+            //Arrange
+            var controller = new ApartmentsController(apartmentMock.Object, userManagerMock.Object);
+
+            //Act
+            var actual = controller.ManageInhabitants(1) as ViewResult;
+            //Assert
+
+            Assert.IsNotNull(actual);
+        }
+
+        //[Test]
+        //public async Task GetApartmentByInhabitantId()
+        //{
+        //    //Arrange
+        //    userManagerMock.Setup(u => u.GetUserAsync(It.IsAny<ClaimsPrincipal>()))
+        //        .Returns(() => new Task<User>(() => new User{ApartmentId = 1}));
+        //    var controller = new ApartmentsController(apartmentMock.Object, userManagerMock.Object);
+
+        //    //Act
+        //    var actual = await controller.GetApartmentByInhabitantId() as ViewResult;
+        //    //Assert
+
+        //    Assert.IsNotNull(actual);
+        //}
     }
 }
