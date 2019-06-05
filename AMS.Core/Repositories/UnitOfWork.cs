@@ -34,10 +34,10 @@ namespace AMS.Core.Repositories
 
         public virtual INotificationRepository Notifications { get; }
 
-        public void Dispose()
-        {
-            _context.Dispose();
-        }
+        //public void Dispose()
+        //{
+        //    _context.Dispose();
+        //}
 
         public int Save()
         {

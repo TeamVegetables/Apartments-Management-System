@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace AMS.Core.Interfaces
 {
-    public interface IUnitOfWork: IDisposable
+    public interface IUnitOfWork /*IDisposable*/
     {
         IApartmentRepository Apartments { get; }
         IPaymentRepository Payments { get; }

@@ -3,7 +3,7 @@ using AMS.Core.Interfaces;
 
 namespace AMS.Services.Services
 {
-    public class BaseService: IDisposable
+    public class BaseService/*: IDisposable*/
     {
         protected readonly IUnitOfWork _uow;
 
@@ -12,9 +12,9 @@ namespace AMS.Services.Services
             _uow = unitOfWork;
         }
 
-        public void Dispose()
-        {
-            _uow.Dispose();
-        }
+        //public void Dispose()
+        //{
+        //    _uow.Dispose();
+        //}
     }
 }

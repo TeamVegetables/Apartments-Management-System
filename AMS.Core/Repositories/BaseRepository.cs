@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AMS.Core.Repositories
 {
-    public class BaseRepository<TEntity> : IDisposable, IGenericRepository<TEntity> where TEntity : class
+    public class BaseRepository<TEntity> : /*IDisposable,*/ IGenericRepository<TEntity> where TEntity : class
     {
         protected readonly ApplicationDbContext _context;
 
@@ -58,9 +58,9 @@ namespace AMS.Core.Repositories
             _context.Set<TEntity>().Update(entity);
         }
 
-        public void Dispose()
-        {
-            _context?.Dispose();
-        }
+        //public void Dispose()
+        //{
+        //    _context?.Dispose();
+        //}
     }
 }

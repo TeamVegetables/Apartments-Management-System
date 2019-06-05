@@ -62,6 +62,8 @@ namespace AMS.Core.Helpers
 
             user = new User
             {
+                FirstName="Manager",
+                LastName="Managerovich",
                 UserName = "manager@gmail.com",
                 Email = "manager@gmail.com"
             };

@@ -16,15 +16,15 @@ namespace AMS.Tests.Services
             uowMock = new Mock<IUnitOfWork>();
         }
 
-        [Test]
-        public void Dispose()
-        {
-            //Arrange
-            var service = new BaseService(uowMock.Object);
-            //Act
-            service.Dispose();
-            //Assert
-            uowMock.Verify(u => u.Dispose());
-        }
+        //[Test]
+        //public void Dispose()
+        //{
+        //    //Arrange
+        //    var service = new BaseService(uowMock.Object);
+        //    //Act
+        //    service.Dispose();
+        //    //Assert
+        //    uowMock.Verify(u => u.Dispose());
+        //}
     }
 }
