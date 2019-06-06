@@ -85,5 +85,13 @@ namespace AMS.Web.Controllers
             await _requestService.RemoveRequestAsync(request);
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Decline(UpdateRequestStatusViewModel requestViewModel)
+        {
+            var request = await _requestService.GetRequestAsync(requestViewModel.Id);
+            await _requestService.RemoveRequestAsync(request);
+            return RedirectToAction("Index");
+        }
     }
 }

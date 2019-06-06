@@ -76,9 +76,18 @@
                         <div class="col-3">
                             <div class="row justify-content-center align-items-center">
                                 <form asp-action="Extend">
-                                    <input type="hidden" asp-for="UserId" value="@request.InitiatorId"/>
-                                    <input asp-for="Id" type="hidden" value="@request.Id"/>
+                                    <input type="hidden" asp-for="UserId" value="@request.InitiatorId" />
+                                    <input asp-for="Id" type="hidden" value="@request.Id" />
                                     <button type="submit" class="btn btn-success">Extend</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="row justify-content-center align-items-center">
+                                <form asp-action="Decline">
+                                    <input type="hidden" asp-for="UserId" value="@request.InitiatorId" />
+                                    <input asp-for="Id" type="hidden" value="@request.Id" />
+                                    <button type="submit" class="btn btn-danger">Decline</button>
                                 </form>
                             </div>
                         </div>
@@ -90,8 +99,8 @@
                                 @if (UserManager.IsInRoleAsync(currentUser, "Manager").Result)
                                 {
                                     <form asp-controller="Requests" asp-action="UpdateRequestStatus" method="post">
-                                        <input asp-for="UserId" type="hidden" value="@request.InitiatorId"/>
-                                        <input asp-for="Id" type="hidden" value="@request.Id"/>
+                                        <input asp-for="UserId" type="hidden" value="@request.InitiatorId" />
+                                        <input asp-for="Id" type="hidden" value="@request.Id" />
                                         <div class="row align-items-center">
                                             <div class="col-7">
                                                 <select asp-for="Status" class="form-control form-control">
