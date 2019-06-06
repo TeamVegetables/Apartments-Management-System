@@ -79,7 +79,7 @@ namespace AMS.Web.Controllers
         public async Task<IActionResult> Extend(UpdateRequestStatusViewModel requestViewModel)
         {
             var user = await _userManager.FindByIdAsync(requestViewModel.UserId);
-            user.RentEndDate.Value.AddMonths(2);
+            user.RentEndDate = user.RentEndDate.Value.AddMonths(2);
             await _userManager.UpdateAsync(user);
             var request = await _requestService.GetRequestAsync(requestViewModel.Id);
             await _requestService.RemoveRequestAsync(request);
