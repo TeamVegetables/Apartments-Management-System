@@ -1,8 +1,11 @@
 ﻿@using AMS.Core.Models
+@using Microsoft.AspNetCore.Identity
 @model AMS.Core.Models.Apartment
+@inject UserManager<User> UserManager
 
 @{
     ViewData["Title"] = "My Apartment";
+    var user = UserManager.GetUserAsync(User).Result;
 }
 
 <div class="container">
@@ -10,11 +13,29 @@
     {
         <div class="row justify-content-center">
             <div class="col text-center">
-                <h3>Apartment</h3> 
+                <h3>Apartment</h3>
             </div>
         </div>
         <div class="row justify-content-center">
             <div class="col-md-6 card my-2">
+                @if (user.RentEndDate != null && user.RentEndDate.Value.Month - DateTime.Now.Month +
+                    12 * (user.RentEndDate.Value.Year - DateTime.Now.Year) < 2)
+                {
+                    <form>
+                        <div class="row justify-content-center card-header">
+                            <div class="col text-center">
+                                <h3 style="color: red;">Your rent will end in 2 months!</h3>
+                                <button type="submit" class="btn btn-success">Extend</button>
+                            </div>
+
+                        </div>
+                    </form>
+                }
+                <div class="row justify-content-center card-header">
+                    <div class="col text-center">
+                        <h3> @Model.Title</h3>
+                    </div>
+                </div>
                 <div class="row justify-content-center card-header">
                     <div class="col text-center">
                         <h3> @Model.Title</h3>
