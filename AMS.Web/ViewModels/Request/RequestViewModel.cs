@@ -19,6 +19,8 @@ namespace AMS.Web.ViewModels.Request
 
         public string Message { get; set; }
 
+        public int? ApartmentId { get; set; }
+
         public DateTime Initiated { get; set; }
 
         public DateTime? Completed { get; set; }

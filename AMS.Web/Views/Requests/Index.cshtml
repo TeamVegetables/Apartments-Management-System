@@ -71,40 +71,55 @@
                             <strong>No date</strong>
                         }
                     </div>
-                    <div class="col-3">
-                        <div class="row justify-content-center align-items-center">
-                            @if (UserManager.IsInRoleAsync(currentUser, "Manager").Result)
-                            {
-                                <form asp-controller="Requests" asp-action="UpdateRequestStatus" method="post">
-                                    <input asp-for="UserId" type="hidden" value="@request.InitiatorId" />
-                                    <input asp-for="Id" type="hidden" value="@request.Id" />
-                                    <div class="row align-items-center">
-                                        <div class="col-7">
-                                            <select asp-for="Status" class="form-control form-control">
-                                                @foreach (var status in Enum.GetNames(typeof(RequestStatus)))
-                                                {
-                                                    if (status != request.Status.ToString())
-                                                    {
-                                                        <option value="@status">@status</option>
-                                                    }
-                                                }
-                                                <option value="@request.Status" selected="selected">
-                                                    @request.Status.ToString()
-                                                </option>
-                                            </select>
-                                        </div>
-                                        <div class="col-5">
-                                            <button type="submit" class="btn btn-success">Change status</button>
-                                        </div>
-                                    </div>
+                    @if (request.ApartmentId.HasValue)
+                    {
+                        <div class="col-3">
+                            <div class="row justify-content-center align-items-center">
+                                <form asp-action="Extend">
+                                    <input type="hidden" asp-for="UserId" value="@request.InitiatorId"/>
+                                    <input asp-for="Id" type="hidden" value="@request.Id"/>
+                                    <button type="submit" class="btn btn-success">Extend</button>
                                 </form>
-                            }
-                            else if (UserManager.IsInRoleAsync(currentUser, "Inhabitant").Result)
-                            {
-                                <span class="badge badge-pill badge-success">@request.Status</span>
-                            }
+                            </div>
                         </div>
-                    </div>
+                    }
+                    else
+                    {
+                        <div class="col-3">
+                            <div class="row justify-content-center align-items-center">
+                                @if (UserManager.IsInRoleAsync(currentUser, "Manager").Result)
+                                {
+                                    <form asp-controller="Requests" asp-action="UpdateRequestStatus" method="post">
+                                        <input asp-for="UserId" type="hidden" value="@request.InitiatorId"/>
+                                        <input asp-for="Id" type="hidden" value="@request.Id"/>
+                                        <div class="row align-items-center">
+                                            <div class="col-7">
+                                                <select asp-for="Status" class="form-control form-control">
+                                                    @foreach (var status in Enum.GetNames(typeof(RequestStatus)))
+                                                    {
+                                                        if (status != request.Status.ToString())
+                                                        {
+                                                            <option value="@status">@status</option>
+                                                        }
+                                                    }
+                                                    <option value="@request.Status" selected="selected">
+                                                        @request.Status.ToString()
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div class="col-5">
+                                                <button type="submit" class="btn btn-success">Change status</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                }
+                                else if (UserManager.IsInRoleAsync(currentUser, "Inhabitant").Result)
+                                {
+                                    <span class="badge badge-pill badge-success">@request.Status</span>
+                                }
+                            </div>
+                        </div>
+                    }
                     <div class="col-3">
                         <span>@request.Message</span>
                     </div>

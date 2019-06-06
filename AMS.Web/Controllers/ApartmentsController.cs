@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AMS.Core.Models;
@@ -13,11 +14,13 @@ namespace AMS.Web.Controllers
     {
         private readonly IApartmentService apartmentService;
         private readonly UserManager<User> userManager;
+        private readonly IRequestService requestService;
 
-        public ApartmentsController(IApartmentService apartmentService, UserManager<User> userManager)
+        public ApartmentsController(IApartmentService apartmentService, UserManager<User> userManager, IRequestService requestService)
         {
             this.apartmentService = apartmentService;
             this.userManager = userManager;
+            this.requestService = requestService;
         }
 
         public async Task<IActionResult> Index()
@@ -88,6 +91,24 @@ namespace AMS.Web.Controllers
             await userManager.UpdateAsync(user);
             await apartmentService.UpdateApartmentAsync(apartment);
             return RedirectToAction("ManageInhabitants", new {apartmentId = viewModel.ApartmentId});
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ExtendRent()
+        {
+            var user = await userManager.GetUserAsync(User);
+            var request = new Request
+            {
+                ApartmentId = user.ApartmentId,
+                Initiated = DateTime.Now,
+                Message = "Please, extend my rent!",
+                InitiatorId = user.Id,
+                ResolverId = user.ManagerId,
+                Status = RequestStatus.Initiated
+            };
+            await requestService.AddRequestAsync(request);
+
+            return RedirectToAction("GetApartmentByInhabitantId");
         }
 
         [HttpPost]

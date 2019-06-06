@@ -12,14 +12,16 @@ namespace AMS.Web.Controllers
     public class RequestsController : Controller
     {
         private readonly IRequestService _requestService;
+        private readonly IApartmentService _apartmentService;
         private readonly UserManager<User> _userManager;
         private readonly IMapper _mapper;
 
-        public RequestsController(IRequestService requestService, UserManager<User> userManager, IMapper mapper)
+        public RequestsController(IRequestService requestService, UserManager<User> userManager, IMapper mapper, IApartmentService apartmentService)
         {
             _requestService = requestService;
             _userManager = userManager;
             _mapper = mapper;
+            _apartmentService = apartmentService;
         }
         public IActionResult Index()
         {
@@ -71,6 +73,17 @@ namespace AMS.Web.Controllers
             await _requestService.UpdateRequestAsync(requestEntity);
 
             return View("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Extend(UpdateRequestStatusViewModel requestViewModel)
+        {
+            var user = await _userManager.FindByIdAsync(requestViewModel.UserId);
+            user.RentEndDate.Value.AddMonths(2);
+            await _userManager.UpdateAsync(user);
+            var request = await _requestService.GetRequestAsync(requestViewModel.Id);
+            await _requestService.RemoveRequestAsync(request);
+            return RedirectToAction("Index");
         }
     }
 }

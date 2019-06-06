@@ -21,7 +21,7 @@
                 @if (user.RentEndDate != null && user.RentEndDate.Value.Month - DateTime.Now.Month +
                     12 * (user.RentEndDate.Value.Year - DateTime.Now.Year) < 2)
                 {
-                    <form>
+                    <form asp-action="ExtendRent">
                         <div class="row justify-content-center card-header">
                             <div class="col text-center">
                                 <h3 style="color: red;">Your rent will end in 2 months!</h3>
